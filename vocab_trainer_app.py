@@ -166,6 +166,16 @@ st.markdown(
         pointer-events: none;
     }
 
+    /* Hide "Fork" controls in the header bar */
+    header[data-testid="stHeader"] button[title*="Fork"],
+    header[data-testid="stHeader"] a[title*="Fork"],
+    header[data-testid="stHeader"] button[aria-label*="Fork"],
+    div[data-testid="stHeader"] button[title*="Fork"],
+    div[data-testid="stHeader"] a[title*="Fork"],
+    div[data-testid="stHeader"] button[aria-label*="Fork"] {
+        display: none !important;
+    }
+
     /* Ensure any default text stays readable on dark backgrounds */
     div[data-testid="stAppViewContainer"] p,
     div[data-testid="stAppViewContainer"] span,
@@ -302,7 +312,8 @@ st.markdown(
         border-radius: 16px;
         padding: 1.6rem 1.5rem 1.25rem;
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-        margin-bottom: 1.3rem;
+        margin-top: 0.4rem;
+        margin-bottom: 1.1rem;
         border: 1px solid rgba(68, 78, 102, 0.6);
     }
 
@@ -619,7 +630,7 @@ st.markdown(
     /* Mobile tweaks */
     @media (max-width: 640px) {
         .app-wrapper {
-            padding-top: 0.35rem;
+            padding-top: 0.15rem;
         }
         .question-card {
             padding: 1.3rem 1.1rem 1.1rem;
@@ -677,6 +688,10 @@ st.markdown(
         }
         .btncols .stButton > button {
             width: 100% !important;
+        }
+        /* On phone, ensure options are vertical and comfortable */
+        div.stRadio > div[role="radiogroup"] {
+            flex-direction: column !important;
         }
         div.stRadio > div[role="radiogroup"] > label {
             padding: 0.8rem 0.95rem;
