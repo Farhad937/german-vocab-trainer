@@ -112,17 +112,22 @@ st.markdown(
         color: var(--text);
     }
 
+    header[data-testid="stHeader"],
     div[data-testid="stHeader"] {
         background: rgba(15, 17, 23, 0.55);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         border-bottom: 1px solid rgba(81, 92, 123, 0.35);
-        position: sticky;
+        position: fixed;
         top: 0;
+        left: 0;
+        right: 0;
+        height: 52px;
         z-index: 999;
     }
 
-    /* "Navigation bar" logo */
+    /* "Navigation bar" branding */
+    header[data-testid="stHeader"]::before,
     div[data-testid="stHeader"]::before {
         content: "HN";
         position: absolute;
@@ -143,6 +148,7 @@ st.markdown(
         pointer-events: none;
     }
 
+    header[data-testid="stHeader"]::after,
     div[data-testid="stHeader"]::after {
         content: "Haidar Neda";
         position: absolute;
@@ -185,12 +191,12 @@ st.markdown(
     .app-wrapper {
         max-width: 700px;
         margin: 0 auto;
-        padding: 1.8rem 1rem 3rem;
+        padding: 1.2rem 1rem 3rem;
     }
 
     @media (min-width: 768px) {
         .app-wrapper {
-            padding: 2.6rem 0 3.6rem;
+            padding: 1.6rem 0 3.6rem;
         }
     }
 
@@ -201,7 +207,7 @@ st.markdown(
         padding: 1.6rem 1.8rem 1.4rem;
         box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
         border: 1px solid rgba(79, 140, 255, 0.32);
-        margin-top: -0.5rem;
+        margin-top: 0;
         margin-bottom: 1.9rem;
         position: relative;
         overflow: hidden;
@@ -613,25 +619,27 @@ st.markdown(
     /* Mobile tweaks */
     @media (max-width: 640px) {
         .app-wrapper {
-            padding-top: 0.65rem;
+            padding-top: 0.35rem;
         }
         .question-card {
             padding: 1.3rem 1.1rem 1.1rem;
         }
         .app-header-card {
             padding: 1.4rem 1.3rem 1.2rem;
-            margin-top: -0.35rem;
+            margin-top: 0;
         }
+        header[data-testid="stHeader"]::before,
         div[data-testid="stHeader"]::before {
             left: 12px;
-            top: 8px;
+            top: 10px;
             width: 28px;
             height: 28px;
             font-size: 0.74rem;
         }
+        header[data-testid="stHeader"]::after,
         div[data-testid="stHeader"]::after {
             left: 46px;
-            top: 10px;
+            top: 13px;
             font-size: 0.8rem;
             padding: 0.26rem 0.55rem;
         }
