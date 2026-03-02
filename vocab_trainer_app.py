@@ -632,7 +632,6 @@ with next_col:
             "Next word",
             key="next_btn",
             type="secondary",
-            disabled=not st.session_state.answered_current_question,
             use_container_width=True,
         )
 
