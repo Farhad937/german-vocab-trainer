@@ -201,12 +201,12 @@ st.markdown(
     .app-wrapper {
         max-width: 700px;
         margin: 0 auto;
-        padding: 1.2rem 1rem 3rem;
+        padding: 0.8rem 1rem 3rem;
     }
 
     @media (min-width: 768px) {
         .app-wrapper {
-            padding: 1.6rem 0 3.6rem;
+            padding: 1.0rem 0 3.6rem;
         }
     }
 
@@ -312,7 +312,7 @@ st.markdown(
         border-radius: 16px;
         padding: 1.6rem 1.5rem 1.25rem;
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-        margin-top: 0.4rem;
+        margin-top: 0.2rem;
         margin-bottom: 1.1rem;
         border: 1px solid rgba(68, 78, 102, 0.6);
     }
@@ -630,7 +630,7 @@ st.markdown(
     /* Mobile tweaks */
     @media (max-width: 640px) {
         .app-wrapper {
-            padding-top: 0.15rem;
+            padding-top: 0.1rem;
         }
         .question-card {
             padding: 1.3rem 1.1rem 1.1rem;
@@ -691,6 +691,7 @@ st.markdown(
         }
         /* On phone, ensure options are vertical and comfortable */
         div.stRadio > div[role="radiogroup"] {
+            display: flex !important;
             flex-direction: column !important;
         }
         div.stRadio > div[role="radiogroup"] > label {
