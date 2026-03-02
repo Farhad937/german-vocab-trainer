@@ -285,6 +285,9 @@ st.markdown(
         align-items: center;
         transition: all 0.18s ease-out;
         box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
+        width: 100%;
+        height: 58px;               /* consistent card size */
+        overflow: hidden;
     }
 
     div.stRadio > div[role="radiogroup"] > label:hover {
@@ -307,6 +310,16 @@ st.markdown(
     div.stRadio > div[role="radiogroup"] > label p {
         color: #d5d8e4 !important;
         margin: 0 !important;
+    }
+
+    /* Clamp option text so card heights match */
+    div.stRadio > div[role="radiogroup"] > label span,
+    div.stRadio > div[role="radiogroup"] > label p {
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical !important;
+        -webkit-line-clamp: 2 !important;
+        overflow: hidden !important;
+        line-height: 1.25 !important;
     }
 
     /* Selected state */
@@ -496,11 +509,17 @@ st.markdown(
 
     /* Mobile tweaks */
     @media (max-width: 640px) {
+        .app-wrapper {
+            padding-top: 1.05rem;
+        }
         .question-card {
             padding: 1.3rem 1.1rem 1.1rem;
         }
         .app-header-card {
             padding: 1.4rem 1.3rem 1.2rem;
+        }
+        .example-container {
+            margin-bottom: 0.8rem;
         }
         .german-word {
             font-size: 1.5rem;
@@ -518,6 +537,7 @@ st.markdown(
         }
         div.stRadio > div[role="radiogroup"] > label {
             padding: 0.8rem 0.95rem;
+            height: 66px;           /* slightly taller for finger-friendly mobile */
         }
     }
     </style>
