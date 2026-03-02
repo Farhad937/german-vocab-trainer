@@ -162,6 +162,64 @@ st.markdown(
         overflow: hidden;
     }
 
+    .header-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.55rem 0.75rem;
+        background: rgba(34, 38, 48, 0.85);
+        border: 1px solid rgba(79, 140, 255, 0.35);
+        border-radius: 999px;
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+        user-select: none;
+        flex: 0 0 auto;
+    }
+
+    .logo-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, rgba(79, 140, 255, 0.95), rgba(61, 220, 151, 0.75));
+        color: #0b0d12;
+        font-weight: 800;
+        font-size: 0.85rem;
+        letter-spacing: 0.02em;
+        box-shadow: 0 10px 24px rgba(79, 140, 255, 0.28);
+    }
+
+    .logo-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1;
+    }
+
+    .logo-name {
+        font-weight: 650;
+        color: var(--text);
+        font-size: 0.92rem;
+        letter-spacing: 0.01em;
+    }
+
+    .logo-sub {
+        font-weight: 450;
+        color: #8f95a3;
+        font-size: 0.72rem;
+        margin-top: 0.12rem;
+    }
+
+    .header-titles {
+        min-width: 0;
+    }
+
     .app-header-card::after {
         content: "";
         position: absolute;
@@ -510,13 +568,31 @@ st.markdown(
     /* Mobile tweaks */
     @media (max-width: 640px) {
         .app-wrapper {
-            padding-top: 1.05rem;
+            padding-top: 0.65rem;
         }
         .question-card {
             padding: 1.3rem 1.1rem 1.1rem;
         }
         .app-header-card {
             padding: 1.4rem 1.3rem 1.2rem;
+        }
+        .header-row {
+            align-items: flex-start;
+            gap: 0.85rem;
+        }
+        .logo {
+            padding: 0.5rem 0.65rem;
+        }
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            font-size: 0.82rem;
+        }
+        .logo-name {
+            font-size: 0.88rem;
+        }
+        .logo-sub {
+            display: none;
         }
         .example-container {
             margin-bottom: 0.8rem;
@@ -553,9 +629,20 @@ st.markdown('<div class="app-wrapper">', unsafe_allow_html=True)
 st.markdown(
     """
     <div class="app-header-card">
-        <div class="app-title">Deutsch Trainer</div>
-        <div class="app-tagline">
-            A focused dark mode space to grow your vocabulary.
+        <div class="header-row">
+            <div class="logo">
+                <div class="logo-mark">HN</div>
+                <div class="logo-text">
+                    <div class="logo-name">Haidar Neda</div>
+                    <div class="logo-sub">Language learning</div>
+                </div>
+            </div>
+            <div class="header-titles">
+                <div class="app-title">Deutsch Trainer</div>
+                <div class="app-tagline">
+                    A focused dark mode space to grow your vocabulary.
+                </div>
+            </div>
         </div>
     </div>
     """,
