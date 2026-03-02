@@ -113,7 +113,51 @@ st.markdown(
     }
 
     div[data-testid="stHeader"] {
-        background: transparent;
+        background: rgba(15, 17, 23, 0.55);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(81, 92, 123, 0.35);
+        position: sticky;
+        top: 0;
+        z-index: 999;
+    }
+
+    /* "Navigation bar" logo */
+    div[data-testid="stHeader"]::before {
+        content: "HN";
+        position: absolute;
+        left: 16px;
+        top: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, rgba(79, 140, 255, 0.95), rgba(61, 220, 151, 0.75));
+        color: #0b0d12;
+        font-weight: 800;
+        font-size: 0.78rem;
+        letter-spacing: 0.02em;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+        pointer-events: none;
+    }
+
+    div[data-testid="stHeader"]::after {
+        content: "Haidar Neda";
+        position: absolute;
+        left: 54px;
+        top: 13px;
+        padding: 0.28rem 0.6rem;
+        border-radius: 999px;
+        background: rgba(26, 29, 36, 0.72);
+        border: 1px solid rgba(79, 140, 255, 0.26);
+        color: var(--text);
+        font-weight: 600;
+        font-size: 0.82rem;
+        letter-spacing: 0.01em;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+        pointer-events: none;
     }
 
     /* Ensure any default text stays readable on dark backgrounds */
@@ -157,6 +201,7 @@ st.markdown(
         padding: 1.6rem 1.8rem 1.4rem;
         box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
         border: 1px solid rgba(79, 140, 255, 0.32);
+        margin-top: -0.5rem;
         margin-bottom: 1.9rem;
         position: relative;
         overflow: hidden;
@@ -575,6 +620,20 @@ st.markdown(
         }
         .app-header-card {
             padding: 1.4rem 1.3rem 1.2rem;
+            margin-top: -0.35rem;
+        }
+        div[data-testid="stHeader"]::before {
+            left: 12px;
+            top: 8px;
+            width: 28px;
+            height: 28px;
+            font-size: 0.74rem;
+        }
+        div[data-testid="stHeader"]::after {
+            left: 46px;
+            top: 10px;
+            font-size: 0.8rem;
+            padding: 0.26rem 0.55rem;
         }
         .header-row {
             align-items: flex-start;
@@ -629,20 +688,9 @@ st.markdown('<div class="app-wrapper">', unsafe_allow_html=True)
 st.markdown(
     """
     <div class="app-header-card">
-        <div class="header-row">
-            <div class="logo">
-                <div class="logo-mark">HN</div>
-                <div class="logo-text">
-                    <div class="logo-name">Haidar Neda</div>
-                    <div class="logo-sub">Language learning</div>
-                </div>
-            </div>
-            <div class="header-titles">
-                <div class="app-title">Deutsch Trainer</div>
-                <div class="app-tagline">
-                    A focused dark mode space to grow your vocabulary.
-                </div>
-            </div>
+        <div class="app-title">Deutsch Trainer</div>
+        <div class="app-tagline">
+            A focused dark mode space to grow your vocabulary.
         </div>
     </div>
     """,
