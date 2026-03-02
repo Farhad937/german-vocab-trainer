@@ -312,7 +312,7 @@ st.markdown(
         border-radius: 16px;
         padding: 1.6rem 1.5rem 1.25rem;
         box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-        margin-top: 0.2rem;
+        margin-top: 0.1rem;
         margin-bottom: 1.1rem;
         border: 1px solid rgba(68, 78, 102, 0.6);
     }
@@ -689,15 +689,7 @@ st.markdown(
         .btncols .stButton > button {
             width: 100% !important;
         }
-        /* On phone, ensure options are vertical and comfortable */
-        div.stRadio {
-            display: flex !important;
-        }
-        div.stRadio > div[role="radiogroup"] {
-            display: flex !important;
-            flex-direction: column !important;
-            width: 100%;
-        }
+        /* On phone, keep cards comfy but horizontal (no flex-direction override) */
         div.stRadio > div[role="radiogroup"] > label {
             padding: 0.8rem 0.95rem;
             height: 66px;           /* slightly taller for finger-friendly mobile */
@@ -743,11 +735,17 @@ with col_left:
     show_plural = st.checkbox("Show plural", value=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-    if show_plural and word["plural"]:
-        st.markdown(
-            f'<div class="meta-info"><span class="meta-highlight">Plural</span>: {word["plural"]}</div>',
-            unsafe_allow_html=True,
-        )
+    if show_plural:
+        if word["plural"]:
+            st.markdown(
+                f'<div class="meta-info"><span class="meta-highlight">Plural</span>: {word["plural"]}</div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                '<div class="meta-info"><span class="meta-highlight">Plural</span>: not available for this word</div>',
+                unsafe_allow_html=True,
+            )
 
 st.markdown("</div>", unsafe_allow_html=True)
 
