@@ -75,10 +75,54 @@ st.markdown(
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+    :root {
+        --app-bg: #0f1117;
+        --app-bg-2: #05060a;
+        --card-bg: #1a1d24;
+        --card-bg-2: #222630;
+        --accent: #4f8cff;
+        --success: #3ddc97;
+        --error: #ff6b6b;
+        --text: #f5f7fa;
+        --text-muted: #aab0bb;
+
+        /* Streamlit theme variables (best-effort override) */
+        --primary-color: var(--accent);
+        --background-color: var(--app-bg);
+        --secondary-background-color: var(--card-bg);
+        --text-color: var(--text);
+    }
+
     html, body, [class*="css"]  {
         font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        background: radial-gradient(circle at top left, #181b24 0, #0f1117 45%, #05060a 100%);
-        color: #f5f7fa;
+        color: var(--text);
+    }
+
+    div[data-testid="stAppViewContainer"] {
+        background: radial-gradient(circle at top left, #181b24 0, var(--app-bg) 45%, var(--app-bg-2) 100%);
+        color: var(--text);
+    }
+
+    div[data-testid="stHeader"] {
+        background: transparent;
+    }
+
+    /* Ensure any default text stays readable on dark backgrounds */
+    div[data-testid="stAppViewContainer"] p,
+    div[data-testid="stAppViewContainer"] span,
+    div[data-testid="stAppViewContainer"] label,
+    div[data-testid="stAppViewContainer"] li,
+    div[data-testid="stAppViewContainer"] strong,
+    div[data-testid="stAppViewContainer"] em {
+        color: var(--text);
+    }
+
+    div[data-testid="stAppViewContainer"] a {
+        color: var(--accent);
+        text-decoration: none;
+    }
+    div[data-testid="stAppViewContainer"] a:hover {
+        text-decoration: underline;
     }
 
     .main {
@@ -86,7 +130,7 @@ st.markdown(
     }
 
     .app-wrapper {
-        max-width: 720px;
+        max-width: 700px;
         margin: 0 auto;
         padding: 1.8rem 1rem 3rem;
     }
@@ -161,18 +205,18 @@ st.markdown(
 
     .meta-info {
         font-size: 0.9rem;
-        color: #aab0bb;
+        color: var(--text-muted);
         margin-bottom: 0.15rem;
         line-height: 1.4;
     }
 
     .meta-highlight {
         font-weight: 500;
-        color: #4f8cff;
+        color: var(--accent);
     }
 
     .example-container {
-        background: #222630;
+        background: var(--card-bg-2);
         border-radius: 12px;
         padding: 0.65rem 0.8rem;
         margin-top: 0.35rem;
@@ -203,7 +247,7 @@ st.markdown(
 
     .stCheckbox > label, .stCheckbox span {
         font-size: 0.85rem;
-        color: #aab0bb;
+        color: var(--text-muted);
     }
 
     /* Answer area */
@@ -246,14 +290,20 @@ st.markdown(
     }
 
     div.stRadio > div[role="radiogroup"] > label span {
-        color: #d5d8e4;
+        color: #d5d8e4 !important;
         font-size: 0.9rem;
+    }
+
+    /* Some Streamlit versions render radio text inside <p> */
+    div.stRadio > div[role="radiogroup"] > label p {
+        color: #d5d8e4 !important;
+        margin: 0 !important;
     }
 
     /* Selected state */
     div.stRadio > div[role="radiogroup"] > label[data-checked="true"],
     div.stRadio > div[role="radiogroup"] > label:has(input:checked) {
-        border-color: #4f8cff;
+        border-color: var(--accent);
         background: #262c3a;
         box-shadow: 0 12px 26px rgba(79, 140, 255, 0.4);
     }
@@ -280,7 +330,7 @@ st.markdown(
 
     /* Primary: Check Answer */
     .primary-btn > button {
-        background: linear-gradient(135deg, #4f8cff, #6fa8ff) !important;
+        background: linear-gradient(135deg, var(--accent), #6fa8ff) !important;
         color: #ffffff !important;
         border: 1px solid rgba(118, 162, 255, 0.9) !important;
     }
@@ -293,7 +343,7 @@ st.markdown(
 
     /* Secondary: Next Word */
     .secondary-btn > button {
-        background: #222630 !important;
+        background: var(--card-bg-2) !important;
         color: #e3e7f2 !important;
         border: 1px solid rgba(79, 140, 255, 0.7) !important;
     }
@@ -338,6 +388,9 @@ st.markdown(
         border-color: rgba(255, 107, 107, 0.7) !important;
         color: #ffd4d4 !important;
     }
+
+    .stAlert-success * { color: #c9f6e3 !important; }
+    .stAlert-error * { color: #ffd4d4 !important; }
 
     /* Progress section */
     .progress-card {
@@ -412,7 +465,7 @@ st.markdown(
         border-radius: 999px;
     }
     .stProgress > div > div > div {
-        background: linear-gradient(90deg, #4f8cff, #3ddc97);
+        background: linear-gradient(90deg, var(--accent), var(--success));
         border-radius: 999px;
     }
 
@@ -434,6 +487,20 @@ st.markdown(
         }
         .german-word {
             font-size: 1.5rem;
+        }
+        .app-title {
+            font-size: 1.6rem;
+        }
+        .qcols div[data-testid="stHorizontalBlock"],
+        .btncols div[data-testid="stHorizontalBlock"] {
+            flex-direction: column !important;
+            gap: 0.8rem !important;
+        }
+        .btncols .stButton > button {
+            width: 100% !important;
+        }
+        div.stRadio > div[role="radiogroup"] > label {
+            padding: 0.8rem 0.95rem;
         }
     }
     </style>
@@ -476,6 +543,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+st.markdown('<div class="qcols">', unsafe_allow_html=True)
 col_left, col_right = st.columns([2.2, 1.8])
 with col_left:
     st.markdown('<div class="controls-row">', unsafe_allow_html=True)
@@ -512,6 +580,7 @@ with col_right:
         """,
         unsafe_allow_html=True,
     )
+st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='answer-area'>", unsafe_allow_html=True)
 st.markdown(
@@ -528,7 +597,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 # -------------------
 # Actions
 # -------------------
-st.markdown('<div class="button-row">', unsafe_allow_html=True)
+st.markdown('<div class="button-row btncols">', unsafe_allow_html=True)
 check_col, next_col = st.columns(2)
 
 with check_col:
