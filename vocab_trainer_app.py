@@ -31,7 +31,16 @@ if not vocab:
 
 def setup_new_question() -> None:
     """Pick a new word and stable multiple‑choice options."""
+    prev_word = st.session_state.get("current_word")
+    prev_german = prev_word.get("german") if isinstance(prev_word, dict) else None
+
     st.session_state.current_word = random.choice(vocab)
+    if prev_german and len(vocab) > 1:
+        for _ in range(10):
+            if st.session_state.current_word.get("german") != prev_german:
+                break
+            st.session_state.current_word = random.choice(vocab)
+
     word = st.session_state.current_word
     correct = word["english"]
 
@@ -330,33 +339,34 @@ st.markdown(
         color: var(--text) !important;
     }
 
-    /* Primary: Check Answer */
-    .primary-btn button {
+    /* Primary: Check answer */
+    div[data-testid="stButton"] > button[kind="primary"] {
         background: linear-gradient(135deg, var(--accent), #6fa8ff) !important;
         color: #ffffff !important;
         border: 1px solid rgba(118, 162, 255, 0.9) !important;
     }
 
-    .primary-btn button:hover {
+    div[data-testid="stButton"] > button[kind="primary"]:hover {
         filter: brightness(1.06);
         transform: translateY(-1px);
         box-shadow: 0 16px 32px rgba(79, 140, 255, 0.55) !important;
     }
 
-    /* Secondary: Next Word */
-    .secondary-btn button {
+    /* Secondary: Next word */
+    div[data-testid="stButton"] > button[kind="secondary"] {
         background: var(--card-bg-2) !important;
-        color: #e3e7f2 !important;
+        color: var(--text) !important;
         border: 1px solid rgba(79, 140, 255, 0.7) !important;
     }
 
-    .secondary-btn button:hover {
+    div[data-testid="stButton"] > button[kind="secondary"]:hover {
         background: #262b36 !important;
         transform: translateY(-1px);
-        box-shadow: 0 12px 26px rgba(79, 140, 255, 0.4) !important;
+        box-shadow: 0 14px 30px rgba(79, 140, 255, 0.28) !important;
     }
 
-    .secondary-btn button:disabled {
+    div[data-testid="stButton"] > button[kind="secondary"]:disabled,
+    div[data-testid="stButton"] > button[kind="secondary"][disabled] {
         opacity: 0.45 !important;
         cursor: not-allowed !important;
         box-shadow: none !important;
@@ -364,6 +374,11 @@ st.markdown(
         border-color: rgba(81, 92, 123, 0.9) !important;
         background: #20232b !important;
         color: #777e90 !important;
+    }
+
+    /* Extra hover glow for both buttons */
+    div[data-testid="stButton"] > button:hover {
+        filter: brightness(1.03);
     }
 
     /* Feedback messages – override default Streamlit alerts */
@@ -604,19 +619,22 @@ check_col, next_col = st.columns(2)
 
 with check_col:
     with st.container():
-        st.markdown('<div class="primary-btn">', unsafe_allow_html=True)
-        check_clicked = st.button("Check answer", key="check_btn")
-        st.markdown("</div>", unsafe_allow_html=True)
+        check_clicked = st.button(
+            "Check answer",
+            key="check_btn",
+            type="primary",
+            use_container_width=True,
+        )
 
 with next_col:
     with st.container():
-        st.markdown('<div class="secondary-btn">', unsafe_allow_html=True)
         next_clicked = st.button(
             "Next word",
             key="next_btn",
+            type="secondary",
             disabled=not st.session_state.answered_current_question,
+            use_container_width=True,
         )
-        st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
 
