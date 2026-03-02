@@ -322,39 +322,41 @@ st.markdown(
         padding: 0.55rem 1.4rem !important;
         font-size: 0.9rem !important;
         font-weight: 500 !important;
-        border: none !important;
+        border: 1px solid rgba(81, 92, 123, 0.9) !important;
         cursor: pointer !important;
         transition: all 0.16s ease-out !important;
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7) !important;
+        background: var(--card-bg-2) !important;
+        color: var(--text) !important;
     }
 
     /* Primary: Check Answer */
-    .primary-btn > button {
+    .primary-btn button {
         background: linear-gradient(135deg, var(--accent), #6fa8ff) !important;
         color: #ffffff !important;
         border: 1px solid rgba(118, 162, 255, 0.9) !important;
     }
 
-    .primary-btn > button:hover {
+    .primary-btn button:hover {
         filter: brightness(1.06);
         transform: translateY(-1px);
         box-shadow: 0 16px 32px rgba(79, 140, 255, 0.55) !important;
     }
 
     /* Secondary: Next Word */
-    .secondary-btn > button {
+    .secondary-btn button {
         background: var(--card-bg-2) !important;
         color: #e3e7f2 !important;
         border: 1px solid rgba(79, 140, 255, 0.7) !important;
     }
 
-    .secondary-btn > button:hover {
+    .secondary-btn button:hover {
         background: #262b36 !important;
         transform: translateY(-1px);
         box-shadow: 0 12px 26px rgba(79, 140, 255, 0.4) !important;
     }
 
-    .secondary-btn > button:disabled {
+    .secondary-btn button:disabled {
         opacity: 0.45 !important;
         cursor: not-allowed !important;
         box-shadow: none !important;
@@ -602,15 +604,19 @@ check_col, next_col = st.columns(2)
 
 with check_col:
     with st.container():
+        st.markdown('<div class="primary-btn">', unsafe_allow_html=True)
         check_clicked = st.button("Check answer", key="check_btn")
+        st.markdown("</div>", unsafe_allow_html=True)
 
 with next_col:
     with st.container():
+        st.markdown('<div class="secondary-btn">', unsafe_allow_html=True)
         next_clicked = st.button(
             "Next word",
             key="next_btn",
             disabled=not st.session_state.answered_current_question,
         )
+        st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
 
