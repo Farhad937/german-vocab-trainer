@@ -731,9 +731,7 @@ st.markdown(
 st.markdown('<div class="qcols">', unsafe_allow_html=True)
 col_left, _ = st.columns([2.2, 1.8])
 with col_left:
-    st.markdown('<div class="controls-row">', unsafe_allow_html=True)
     show_plural = st.checkbox("Show plural", value=True)
-    st.markdown("</div>", unsafe_allow_html=True)
 
     if show_plural:
         if word["plural"]:
@@ -746,6 +744,13 @@ with col_left:
                 '<div class="meta-info"><span class="meta-highlight">Plural</span>: not available for this word</div>',
                 unsafe_allow_html=True,
             )
+
+    show_example = st.checkbox("Show example", value=True)
+    if show_example and word["example"]:
+        st.markdown(
+            f'<div class="meta-info">Example: {word["example"]}</div>',
+            unsafe_allow_html=True,
+        )
 
 st.markdown("</div>", unsafe_allow_html=True)
 
