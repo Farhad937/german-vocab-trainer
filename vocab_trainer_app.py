@@ -690,9 +690,13 @@ st.markdown(
             width: 100% !important;
         }
         /* On phone, ensure options are vertical and comfortable */
+        div.stRadio {
+            display: flex !important;
+        }
         div.stRadio > div[role="radiogroup"] {
             display: flex !important;
             flex-direction: column !important;
+            width: 100%;
         }
         div.stRadio > div[role="radiogroup"] > label {
             padding: 0.8rem 0.95rem;
@@ -725,13 +729,6 @@ st.markdown(
 # Question card
 # -------------------
 st.markdown('<div class="question-card">', unsafe_allow_html=True)
-
-st.markdown(
-    """
-    <div class="question-header-label">Current word</div>
-    """,
-    unsafe_allow_html=True,
-)
 st.markdown(
     f"""
     <div class="german-word">{word['german']}</div>
@@ -740,11 +737,10 @@ st.markdown(
 )
 
 st.markdown('<div class="qcols">', unsafe_allow_html=True)
-col_left, col_right = st.columns([2.2, 1.8])
+col_left, _ = st.columns([2.2, 1.8])
 with col_left:
     st.markdown('<div class="controls-row">', unsafe_allow_html=True)
     show_plural = st.checkbox("Show plural", value=True)
-    show_example = st.checkbox("Show example", value=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
     if show_plural and word["plural"]:
@@ -753,21 +749,6 @@ with col_left:
             unsafe_allow_html=True,
         )
 
-    if show_example and word["example"]:
-        st.markdown(
-            """
-            <div class="example-container">
-                <div class="example-label">Example</div>
-            """,
-            unsafe_allow_html=True,
-        )
-        st.markdown(
-            f'<div class="example-text">{word["example"]}</div></div>',
-            unsafe_allow_html=True,
-        )
-
-with col_right:
-    pass
 st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='answer-area'>", unsafe_allow_html=True)
