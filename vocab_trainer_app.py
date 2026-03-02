@@ -767,15 +767,7 @@ with col_left:
         )
 
 with col_right:
-    st.markdown(
-        """
-        <div class="meta-info">
-            🔤 <span class="meta-highlight">Vocabulary card</span><br/>
-            Stay consistent and the words will stick.
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    pass
 st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='answer-area'>", unsafe_allow_html=True)
