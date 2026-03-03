@@ -202,6 +202,14 @@ st.markdown(
         background-color: transparent;
     }
 
+    /* ── Reduce Streamlit's default top padding (the gap below the nav bar) ── */
+    div[data-testid="stMainBlockContainer"] {
+        padding-top: 2rem !important;
+    }
+    section[data-testid="stMain"] > div:first-child {
+        padding-top: 2rem !important;
+    }
+
     .app-wrapper {
         max-width: 700px;
         margin: 0 auto;
@@ -522,6 +530,12 @@ st.markdown(
 
     /* Mobile (<=640px) */
     @media (max-width: 640px) {
+        div[data-testid="stMainBlockContainer"] {
+            padding-top: 2rem !important;
+        }
+        section[data-testid="stMain"] > div:first-child {
+            padding-top: 2rem !important;
+        }
         .app-wrapper {
             padding-top: 0.1rem;
         }
