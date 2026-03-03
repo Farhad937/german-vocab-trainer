@@ -27,13 +27,17 @@ with open(vocab_file, encoding="utf-8-sig") as f:
 if not vocab:
     st.error("Your vocab.csv file is empty or incorrectly formatted.")
     st.stop()
-    
+
+
 def setup_new_question() -> None:
     """Pick a new word and stable multiple‑choice options."""
     if "word_queue" not in st.session_state or not st.session_state.word_queue:
         shuffled = vocab.copy()
         random.shuffle(shuffled)
         st.session_state.word_queue = shuffled
+        st.session_state.round_complete = True
+    else:
+        st.session_state.round_complete = False
 
     st.session_state.current_word = st.session_state.word_queue.pop()
 
@@ -50,8 +54,9 @@ def setup_new_question() -> None:
     st.session_state.options = options
     st.session_state.answered_current_question = False
 
+
 # -------------------
-# Initialize session state (logic unchanged)
+# Initialize session state
 # -------------------
 if "correct" not in st.session_state:
     st.session_state.correct = 0
@@ -59,6 +64,8 @@ if "wrong" not in st.session_state:
     st.session_state.wrong = 0
 if "answered_current_question" not in st.session_state:
     st.session_state.answered_current_question = False
+if "round_complete" not in st.session_state:
+    st.session_state.round_complete = False
 
 if (
     "current_word" not in st.session_state
@@ -90,7 +97,6 @@ st.markdown(
         --text: #f5f7fa;
         --text-muted: #aab0bb;
 
-        /* Streamlit theme variables (best-effort override) */
         --primary-color: var(--accent);
         --background-color: var(--app-bg);
         --secondary-background-color: var(--card-bg);
@@ -121,7 +127,6 @@ st.markdown(
         z-index: 999;
     }
 
-    /* "Navigation bar" branding */
     header[data-testid="stHeader"]::before,
     div[data-testid="stHeader"]::before {
         content: "HN";
@@ -161,7 +166,6 @@ st.markdown(
         pointer-events: none;
     }
 
-    /* Hide "Fork" controls in the header bar */
     header[data-testid="stHeader"] button[title*="Fork"],
     header[data-testid="stHeader"] a[title*="Fork"],
     header[data-testid="stHeader"] button[aria-label*="Fork"],
@@ -171,7 +175,6 @@ st.markdown(
         display: none !important;
     }
 
-    /* Ensure any default text stays readable on dark backgrounds */
     div[data-testid="stAppViewContainer"] p,
     div[data-testid="stAppViewContainer"] span,
     div[data-testid="stAppViewContainer"] label,
@@ -205,7 +208,6 @@ st.markdown(
         }
     }
 
-    /* Header */
     .app-header-card {
         background: #12141d;
         border-radius: 18px;
@@ -301,7 +303,6 @@ st.markdown(
         color: #aab0bb;
     }
 
-    /* Question card */
     .question-card {
         background: #1a1d24;
         border-radius: 16px;
@@ -374,7 +375,6 @@ st.markdown(
         color: var(--text-muted);
     }
 
-    /* Answer area */
     .answer-area > div {
         margin-top: 0.45rem;
     }
@@ -386,7 +386,6 @@ st.markdown(
         font-weight: 500;
     }
 
-    /* Radio as cards */
     div.stRadio > div[role="radiogroup"] {
         gap: 0.6rem;
     }
@@ -401,7 +400,7 @@ st.markdown(
         transition: all 0.18s ease-out;
         box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
         width: 100%;
-        height: 58px;               /* consistent card size */
+        height: 58px;
         overflow: hidden;
     }
 
@@ -421,13 +420,11 @@ st.markdown(
         font-size: 0.9rem;
     }
 
-    /* Some Streamlit versions render radio text inside <p> */
     div.stRadio > div[role="radiogroup"] > label p {
         color: #d5d8e4 !important;
         margin: 0 !important;
     }
 
-    /* Clamp option text so card heights match */
     div.stRadio > div[role="radiogroup"] > label span,
     div.stRadio > div[role="radiogroup"] > label p {
         display: -webkit-box !important;
@@ -437,7 +434,6 @@ st.markdown(
         line-height: 1.25 !important;
     }
 
-    /* Selected state */
     div.stRadio > div[role="radiogroup"] > label[data-checked="true"],
     div.stRadio > div[role="radiogroup"] > label:has(input:checked) {
         border-color: var(--accent);
@@ -445,7 +441,6 @@ st.markdown(
         box-shadow: 0 12px 26px rgba(79, 140, 255, 0.4);
     }
 
-    /* Buttons row */
     .button-row {
         display: flex;
         flex-wrap: wrap;
@@ -467,7 +462,6 @@ st.markdown(
         color: var(--text) !important;
     }
 
-    /* Primary: Check answer */
     div[data-testid="stButton"] > button[kind="primary"] {
         background: linear-gradient(135deg, var(--accent), #6fa8ff) !important;
         color: #ffffff !important;
@@ -480,7 +474,6 @@ st.markdown(
         box-shadow: 0 16px 32px rgba(79, 140, 255, 0.55) !important;
     }
 
-    /* Secondary: Next word */
     div[data-testid="stButton"] > button[kind="secondary"] {
         background: var(--card-bg-2) !important;
         color: var(--text) !important;
@@ -504,12 +497,10 @@ st.markdown(
         color: #777e90 !important;
     }
 
-    /* Extra hover glow for both buttons */
     div[data-testid="stButton"] > button:hover {
         filter: brightness(1.03);
     }
 
-    /* Feedback messages – override default Streamlit alerts */
     .stAlert {
         border-radius: 12px;
         padding: 0.7rem 0.9rem;
@@ -537,7 +528,6 @@ st.markdown(
     .stAlert-success * { color: #c9f6e3 !important; }
     .stAlert-error * { color: #ffd4d4 !important; }
 
-    /* Progress section */
     .progress-card {
         background: #151822;
         border-radius: 16px;
@@ -604,7 +594,12 @@ st.markdown(
         color: #e0e4f3;
     }
 
-    /* Progress bar */
+    .stat-pill--remaining {
+        background: #1c2030;
+        border-color: rgba(79, 140, 255, 0.6);
+        color: #b8caff;
+    }
+
     .stProgress > div > div {
         background-color: #202636;
         border-radius: 999px;
@@ -614,7 +609,6 @@ st.markdown(
         border-radius: 999px;
     }
 
-    /* Tip box */
     .tip-box {
         font-size: 0.82rem;
         color: #8b92a0;
@@ -622,7 +616,6 @@ st.markdown(
         line-height: 1.5;
     }
 
-    /* Mobile tweaks */
     @media (max-width: 640px) {
         .app-wrapper {
             padding-top: 0.1rem;
@@ -684,10 +677,9 @@ st.markdown(
         .btncols .stButton > button {
             width: 100% !important;
         }
-        /* On phone, keep cards comfy but horizontal (no flex-direction override) */
         div.stRadio > div[role="radiogroup"] > label {
             padding: 0.8rem 0.95rem;
-            height: 66px;           /* slightly taller for finger-friendly mobile */
+            height: 66px;
         }
     }
     </style>
@@ -711,6 +703,12 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+# -------------------
+# Round complete banner  ← NEW
+# -------------------
+if st.session_state.get("round_complete"):
+    st.success(f"🎉 You've reviewed all {len(vocab)} words! Starting a new round.")
 
 # -------------------
 # Question card
@@ -788,7 +786,7 @@ with next_col:
 st.markdown("</div>", unsafe_allow_html=True)
 
 # -------------------
-# Check answer logic (unchanged functionality)
+# Check answer logic
 # -------------------
 if check_clicked:
     selected = st.session_state.get("answer_choice")
@@ -814,6 +812,7 @@ if next_clicked:
 # -------------------
 total_answered = st.session_state.correct + st.session_state.wrong
 accuracy = (st.session_state.correct / total_answered) * 100 if total_answered else 0.0
+words_left = len(st.session_state.get("word_queue", []))
 
 st.markdown('<div class="progress-card">', unsafe_allow_html=True)
 st.markdown(
@@ -837,6 +836,7 @@ st.markdown(
         <div class="stat-pill stat-pill--wrong">❌ Wrong: {st.session_state.wrong}</div>
         <div class="stat-pill stat-pill--total">📚 Total: {total_answered}</div>
         <div class="stat-pill">🎯 Accuracy: {accuracy:.1f}%</div>
+        <div class="stat-pill stat-pill--remaining">📖 Words left this round: {words_left} / {len(vocab)}</div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -853,4 +853,3 @@ st.markdown(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
-
