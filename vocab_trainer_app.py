@@ -27,19 +27,15 @@ with open(vocab_file, encoding="utf-8-sig") as f:
 if not vocab:
     st.error("Your vocab.csv file is empty or incorrectly formatted.")
     st.stop()
-
-
+    
 def setup_new_question() -> None:
     """Pick a new word and stable multiple‑choice options."""
-    prev_word = st.session_state.get("current_word")
-    prev_german = prev_word.get("german") if isinstance(prev_word, dict) else None
+    if "word_queue" not in st.session_state or not st.session_state.word_queue:
+        shuffled = vocab.copy()
+        random.shuffle(shuffled)
+        st.session_state.word_queue = shuffled
 
-    st.session_state.current_word = random.choice(vocab)
-    if prev_german and len(vocab) > 1:
-        for _ in range(10):
-            if st.session_state.current_word.get("german") != prev_german:
-                break
-            st.session_state.current_word = random.choice(vocab)
+    st.session_state.current_word = st.session_state.word_queue.pop()
 
     word = st.session_state.current_word
     correct = word["english"]
@@ -53,7 +49,6 @@ def setup_new_question() -> None:
     st.session_state.correct_answer = correct
     st.session_state.options = options
     st.session_state.answered_current_question = False
-
 
 # -------------------
 # Initialize session state (logic unchanged)
@@ -858,3 +853,4 @@ st.markdown(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
+
