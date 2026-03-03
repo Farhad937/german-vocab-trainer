@@ -30,7 +30,7 @@ if not vocab:
 
 
 def setup_new_question() -> None:
-    """Pick a new word and stable multiple‑choice options."""
+    """Pick a new word and stable multiple-choice options."""
     if "word_queue" not in st.session_state or not st.session_state.word_queue:
         shuffled = vocab.copy()
         random.shuffle(shuffled)
@@ -96,14 +96,13 @@ st.markdown(
         --error: #ff6b6b;
         --text: #f5f7fa;
         --text-muted: #aab0bb;
-
         --primary-color: var(--accent);
         --background-color: var(--app-bg);
         --secondary-background-color: var(--card-bg);
         --text-color: var(--text);
     }
 
-    html, body, [class*="css"]  {
+    html, body, [class*="css"] {
         font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
         color: var(--text);
     }
@@ -166,12 +165,19 @@ st.markdown(
         pointer-events: none;
     }
 
+    /* Hide Fork button and right-side header toolbar */
     header[data-testid="stHeader"] button[title*="Fork"],
     header[data-testid="stHeader"] a[title*="Fork"],
     header[data-testid="stHeader"] button[aria-label*="Fork"],
+    header[data-testid="stHeader"] [data-testid*="fork"],
+    header[data-testid="stHeader"] [class*="fork"],
     div[data-testid="stHeader"] button[title*="Fork"],
     div[data-testid="stHeader"] a[title*="Fork"],
-    div[data-testid="stHeader"] button[aria-label*="Fork"] {
+    div[data-testid="stHeader"] button[aria-label*="Fork"],
+    div[data-testid="stHeader"] [data-testid*="fork"],
+    div[data-testid="stHeader"] [class*="fork"],
+    header[data-testid="stHeader"] > div:last-child,
+    div[data-testid="stHeader"] > div:last-child {
         display: none !important;
     }
 
@@ -199,83 +205,26 @@ st.markdown(
     .app-wrapper {
         max-width: 700px;
         margin: 0 auto;
-        padding: 0.8rem 1rem 3rem;
+        padding: 0.5rem 1rem 3rem;
     }
 
     @media (min-width: 768px) {
         .app-wrapper {
-            padding: 1.0rem 0 3.6rem;
+            padding: 0.6rem 0 3.6rem;
         }
     }
 
+    /* Compact header card — no tagline */
     .app-header-card {
         background: #12141d;
-        border-radius: 18px;
-        padding: 1.6rem 1.8rem 1.4rem;
-        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
+        border-radius: 14px;
+        padding: 0.65rem 1.4rem;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
         border: 1px solid rgba(79, 140, 255, 0.32);
         margin-top: 0;
-        margin-bottom: 1.9rem;
+        margin-bottom: 0.85rem;
         position: relative;
         overflow: hidden;
-    }
-
-    .header-row {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .logo {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.65rem;
-        padding: 0.55rem 0.75rem;
-        background: rgba(34, 38, 48, 0.85);
-        border: 1px solid rgba(79, 140, 255, 0.35);
-        border-radius: 999px;
-        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
-        user-select: none;
-        flex: 0 0 auto;
-    }
-
-    .logo-mark {
-        width: 34px;
-        height: 34px;
-        border-radius: 999px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, rgba(79, 140, 255, 0.95), rgba(61, 220, 151, 0.75));
-        color: #0b0d12;
-        font-weight: 800;
-        font-size: 0.85rem;
-        letter-spacing: 0.02em;
-        box-shadow: 0 10px 24px rgba(79, 140, 255, 0.28);
-    }
-
-    .logo-text {
-        display: flex;
-        flex-direction: column;
-        line-height: 1.1;
-    }
-
-    .logo-name {
-        font-weight: 650;
-        color: var(--text);
-        font-size: 0.92rem;
-        letter-spacing: 0.01em;
-    }
-
-    .logo-sub {
-        font-weight: 450;
-        color: #8f95a3;
-        font-size: 0.72rem;
-        margin-top: 0.12rem;
-    }
-
-    .header-titles {
-        min-width: 0;
     }
 
     .app-header-card::after {
@@ -290,35 +239,12 @@ st.markdown(
     }
 
     .app-title {
-        font-size: 1.9rem;
+        font-size: 1.55rem;
         font-weight: 700;
         letter-spacing: 0.03em;
         color: #f5f7fa;
-        margin-bottom: 0.3rem;
-    }
-
-    .app-tagline {
-        font-size: 0.95rem;
-        font-weight: 400;
-        color: #aab0bb;
-    }
-
-    .question-card {
-        background: #1a1d24;
-        border-radius: 16px;
-        padding: 1.6rem 1.5rem 1.25rem;
-        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
-        margin-top: 0.1rem;
-        margin-bottom: 1.1rem;
-        border: 1px solid rgba(68, 78, 102, 0.6);
-    }
-
-    .question-header-label {
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        color: #6c7485;
-        margin-bottom: 0.35rem;
+        margin: 0;
+        line-height: 1.1;
     }
 
     .german-word {
@@ -346,28 +272,6 @@ st.markdown(
         padding: 0.65rem 0.8rem;
         margin-top: 0.35rem;
         border: 1px solid rgba(68, 78, 102, 0.75);
-    }
-
-    .example-label {
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        color: #81889a;
-        letter-spacing: 0.12em;
-        margin-bottom: 0.18rem;
-    }
-
-    .example-text {
-        font-size: 0.9rem;
-        color: #d3d7e2;
-        line-height: 1.5;
-    }
-
-    .controls-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem 1rem;
-        margin-top: 0.3rem;
-        margin-bottom: 0.3rem;
     }
 
     .stCheckbox > label, .stCheckbox span {
@@ -616,16 +520,17 @@ st.markdown(
         line-height: 1.5;
     }
 
+    /* Mobile (<=640px) */
     @media (max-width: 640px) {
         .app-wrapper {
             padding-top: 0.1rem;
         }
-        .question-card {
-            padding: 1.3rem 1.1rem 1.1rem;
-        }
         .app-header-card {
-            padding: 1.4rem 1.3rem 1.2rem;
-            margin-top: 0;
+            padding: 0.55rem 1rem;
+            margin-bottom: 0.7rem;
+        }
+        .app-title {
+            font-size: 1.3rem;
         }
         header[data-testid="stHeader"]::before,
         div[data-testid="stHeader"]::before {
@@ -642,44 +547,43 @@ st.markdown(
             font-size: 0.8rem;
             padding: 0.26rem 0.55rem;
         }
-        .header-row {
-            align-items: flex-start;
-            gap: 0.85rem;
-        }
-        .logo {
-            padding: 0.5rem 0.65rem;
-        }
-        .logo-mark {
-            width: 32px;
-            height: 32px;
-            font-size: 0.82rem;
-        }
-        .logo-name {
-            font-size: 0.88rem;
-        }
-        .logo-sub {
-            display: none;
-        }
-        .example-container {
-            margin-bottom: 0.8rem;
-        }
         .german-word {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
+            margin-bottom: 0.2rem;
         }
-        .app-title {
-            font-size: 1.6rem;
+        .meta-info {
+            font-size: 0.78rem;
+            margin-bottom: 0.06rem;
         }
-        .qcols div[data-testid="stHorizontalBlock"],
-        .btncols div[data-testid="stHorizontalBlock"] {
-            flex-direction: column !important;
-            gap: 0.8rem !important;
+        .answer-label {
+            font-size: 0.78rem;
+            margin-bottom: 0.25rem;
         }
-        .btncols .stButton > button {
-            width: 100% !important;
+        /* 2x2 grid for the four answer options */
+        div.stRadio > div[role="radiogroup"] {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 0.35rem !important;
         }
         div.stRadio > div[role="radiogroup"] > label {
-            padding: 0.8rem 0.95rem;
-            height: 66px;
+            height: 50px;
+            padding: 0.45rem 0.55rem;
+        }
+        div.stRadio > div[role="radiogroup"] > label span,
+        div.stRadio > div[role="radiogroup"] > label p {
+            font-size: 0.76rem !important;
+            -webkit-line-clamp: 2 !important;
+        }
+        .btncols .stButton > button {
+            font-size: 0.8rem !important;
+            padding: 0.42rem 0.7rem !important;
+        }
+        .example-container {
+            margin-bottom: 0.45rem;
+        }
+        .qcols div[data-testid="stHorizontalBlock"] {
+            flex-direction: column !important;
+            gap: 0.35rem !important;
         }
     }
     </style>
@@ -696,28 +600,22 @@ st.markdown(
     """
     <div class="app-header-card">
         <div class="app-title">Deutsch Trainer</div>
-        <div class="app-tagline">
-            A focused dark mode space to grow your vocabulary.
-        </div>
     </div>
     """,
     unsafe_allow_html=True,
 )
 
 # -------------------
-# Round complete banner  ← NEW
+# Round complete banner
 # -------------------
 if st.session_state.get("round_complete"):
     st.success(f"🎉 You've reviewed all {len(vocab)} words! Starting a new round.")
 
 # -------------------
-# Question card
+# German word + meta info
 # -------------------
-st.markdown('<div class="question-card">', unsafe_allow_html=True)
 st.markdown(
-    f"""
-    <div class="german-word">{word['german']}</div>
-    """,
+    f'<div class="german-word">{word["german"]}</div>',
     unsafe_allow_html=True,
 )
 
