@@ -82,6 +82,8 @@ CSS = """
 html, body, [class*="css"] {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text);
+    touch-action: pan-x pan-y;
+    -ms-touch-action: pan-x pan-y;
 }
 
 div[data-testid="stAppViewContainer"] {
@@ -245,6 +247,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     font-weight: 500;
 }
 
+/* Radio cards desktop */
 div.stRadio > div[role="radiogroup"],
 div[data-testid="stRadio"] > div,
 div[class*="stRadio"] > div {
@@ -444,33 +447,50 @@ div[data-testid="stButton"] > button:hover { filter: brightness(1.03); }
     .german-word { font-size: 1.35rem; margin-bottom: 0.2rem; }
     .meta-info { font-size: 0.78rem; margin-bottom: 0.06rem; }
     .answer-label { font-size: 0.78rem; margin-bottom: 0.25rem; }
+    .btncols .stButton > button { font-size: 0.8rem !important; padding: 0.42rem 0.7rem !important; }
+    .example-container { margin-bottom: 0.45rem; }
+    .qcols div[data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0.35rem !important; }
 
+    /* 2x2 grid — carpet-bomb every possible Streamlit radio container */
     div.stRadio > div[role="radiogroup"],
+    div.stRadio > div,
     div[data-testid="stRadio"] > div,
-    div[class*="stRadio"] > div {
+    div[data-testid="stRadio"] > div > div,
+    div[class*="stRadio"] > div,
+    div[class*="stRadio"] > div > div,
+    .stRadio > div,
+    [data-testid="stRadio"] > div {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
         gap: 0.35rem !important;
+        flex-direction: unset !important;
     }
 
     div.stRadio > div[role="radiogroup"] > label,
+    div.stRadio > div > label,
     div[data-testid="stRadio"] > div > label,
-    div[class*="stRadio"] > div > label {
-        height: 50px;
-        padding: 0.45rem 0.55rem;
+    div[data-testid="stRadio"] > div > div > label,
+    div[class*="stRadio"] > div > label,
+    div[class*="stRadio"] > div > div > label,
+    .stRadio > div > label,
+    [data-testid="stRadio"] > div > label {
+        height: 50px !important;
+        padding: 0.45rem 0.55rem !important;
+        min-width: 0 !important;
+        width: 100% !important;
     }
 
     div.stRadio > div[role="radiogroup"] > label span,
     div.stRadio > div[role="radiogroup"] > label p,
+    div.stRadio > div > label span,
+    div.stRadio > div > label p,
     div[data-testid="stRadio"] > div > label span,
-    div[data-testid="stRadio"] > div > label p {
+    div[data-testid="stRadio"] > div > label p,
+    div[data-testid="stRadio"] > div > div > label span,
+    div[data-testid="stRadio"] > div > div > label p {
         font-size: 0.76rem !important;
         -webkit-line-clamp: 2 !important;
     }
-
-    .btncols .stButton > button { font-size: 0.8rem !important; padding: 0.42rem 0.7rem !important; }
-    .example-container { margin-bottom: 0.45rem; }
-    .qcols div[data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0.35rem !important; }
 }
 </style>
 """
@@ -505,7 +525,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='answer-area'>", unsafe_allow_html=True)
 st.markdown("<div class='answer-label'>Select the correct English meaning:</div>", unsafe_allow_html=True)
-choice = st.radio("", options, key="answer_choice")
+choice = st.radio("", options, key="answer_choice", horizontal=False)
 st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown('<div class="button-row btncols">', unsafe_allow_html=True)
@@ -567,5 +587,3 @@ st.markdown(
     unsafe_allow_html=True,
 )
 st.markdown("</div>", unsafe_allow_html=True)
-
-
