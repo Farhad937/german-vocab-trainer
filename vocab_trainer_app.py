@@ -57,15 +57,13 @@ correct_answer = st.session_state.correct_answer
 options = st.session_state.options
 
 st.markdown(
-    '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">',
     unsafe_allow_html=True,
 )
 
 CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-@viewport { zoom: 1.0; width: device-width; }
 
 :root {
     --app-bg: #0f1117;
@@ -82,8 +80,6 @@ CSS = """
 html, body, [class*="css"] {
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text);
-    touch-action: pan-x pan-y;
-    -ms-touch-action: pan-x pan-y;
 }
 
 div[data-testid="stAppViewContainer"] {
@@ -247,11 +243,13 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     font-weight: 500;
 }
 
-/* Radio cards desktop */
+/* Radio cards — desktop vertical stack */
 div.stRadio > div[role="radiogroup"],
 div[data-testid="stRadio"] > div,
 div[class*="stRadio"] > div {
     gap: 0.6rem;
+    display: flex;
+    flex-direction: column;
 }
 
 div.stRadio > div[role="radiogroup"] > label,
@@ -310,6 +308,29 @@ div[data-testid="stRadio"] > div > label:has(input:checked) {
     border-color: var(--accent);
     background: #262c3a;
     box-shadow: 0 12px 26px rgba(79,140,255,0.4);
+}
+
+/* horizontal=True native Streamlit radio styling on mobile */
+@media (max-width: 640px) {
+    div[data-testid="stRadio"] > div {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.35rem !important;
+    }
+    div[data-testid="stRadio"] > div > label {
+        height: 52px !important;
+        padding: 0.4rem 0.5rem !important;
+        font-size: 0.75rem !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        white-space: normal !important;
+    }
+    div[data-testid="stRadio"] > div > label span,
+    div[data-testid="stRadio"] > div > label p {
+        font-size: 0.75rem !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
 }
 
 .button-row {
@@ -450,47 +471,6 @@ div[data-testid="stButton"] > button:hover { filter: brightness(1.03); }
     .btncols .stButton > button { font-size: 0.8rem !important; padding: 0.42rem 0.7rem !important; }
     .example-container { margin-bottom: 0.45rem; }
     .qcols div[data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0.35rem !important; }
-
-    /* 2x2 grid — carpet-bomb every possible Streamlit radio container */
-    div.stRadio > div[role="radiogroup"],
-    div.stRadio > div,
-    div[data-testid="stRadio"] > div,
-    div[data-testid="stRadio"] > div > div,
-    div[class*="stRadio"] > div,
-    div[class*="stRadio"] > div > div,
-    .stRadio > div,
-    [data-testid="stRadio"] > div {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 0.35rem !important;
-        flex-direction: unset !important;
-    }
-
-    div.stRadio > div[role="radiogroup"] > label,
-    div.stRadio > div > label,
-    div[data-testid="stRadio"] > div > label,
-    div[data-testid="stRadio"] > div > div > label,
-    div[class*="stRadio"] > div > label,
-    div[class*="stRadio"] > div > div > label,
-    .stRadio > div > label,
-    [data-testid="stRadio"] > div > label {
-        height: 50px !important;
-        padding: 0.45rem 0.55rem !important;
-        min-width: 0 !important;
-        width: 100% !important;
-    }
-
-    div.stRadio > div[role="radiogroup"] > label span,
-    div.stRadio > div[role="radiogroup"] > label p,
-    div.stRadio > div > label span,
-    div.stRadio > div > label p,
-    div[data-testid="stRadio"] > div > label span,
-    div[data-testid="stRadio"] > div > label p,
-    div[data-testid="stRadio"] > div > div > label span,
-    div[data-testid="stRadio"] > div > div > label p {
-        font-size: 0.76rem !important;
-        -webkit-line-clamp: 2 !important;
-    }
 }
 </style>
 """
@@ -525,7 +505,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='answer-area'>", unsafe_allow_html=True)
 st.markdown("<div class='answer-label'>Select the correct English meaning:</div>", unsafe_allow_html=True)
-choice = st.radio("", options, key="answer_choice", horizontal=False)
+choice = st.radio("", options, key="answer_choice", horizontal=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown('<div class="button-row btncols">', unsafe_allow_html=True)
