@@ -200,24 +200,24 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     background: linear-gradient(90deg, #4f8cff, transparent);
 }
 
-.app-title { font-size: 1.8rem; font-weight: 700; letter-spacing: 0.03em; color: #f5f7fa; margin: 0; line-height: 1.1; }
-.german-word { font-size: 2.2rem; font-weight: 700; color: #ffffff; margin-bottom: 0.4rem; }
-.meta-info { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 0.15rem; line-height: 1.4; }
+.app-title { font-size: 2rem; font-weight: 700; letter-spacing: 0.03em; color: #f5f7fa; margin: 0; line-height: 1.1; }
+.german-word { font-size: 2.6rem; font-weight: 700; color: #ffffff; margin-bottom: 0.4rem; }
+.meta-info { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 0.15rem; line-height: 1.4; }
 .meta-highlight { font-weight: 500; color: var(--accent); }
-.answer-label { font-size: 1.1rem; color: #e1e4ec; margin-bottom: 0.45rem; font-weight: 500; }
+.answer-label { font-size: 1.2rem; color: #e1e4ec; margin-bottom: 0.45rem; font-weight: 500; }
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""<style>
 .option-btn button {
     border-radius: 12px !important;
     padding: 0.55rem 0.5rem !important;
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
     font-weight: 400 !important;
     border: 1px solid rgba(81,92,123,0.9) !important;
     background: #1f222b !important;
     color: #d5d8e4 !important;
     width: 100% !important;
-    min-height: 58px !important;
+    min-height: 64px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
     transition: all 0.18s ease-out !important;
@@ -235,13 +235,13 @@ st.markdown("""<style>
 .option-btn-selected button {
     border-radius: 12px !important;
     padding: 0.55rem 0.5rem !important;
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
     font-weight: 600 !important;
     border: 2px solid #4f8cff !important;
     background: #262c3a !important;
     color: #ffffff !important;
     width: 100% !important;
-    min-height: 58px !important;
+    min-height: 64px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
     box-shadow: 0 12px 26px rgba(79,140,255,0.4) !important;
@@ -251,13 +251,13 @@ st.markdown("""<style>
 .option-btn-correct button {
     border-radius: 12px !important;
     padding: 0.55rem 0.5rem !important;
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
     font-weight: 600 !important;
     border: 2px solid #3ddc97 !important;
     background: #11241c !important;
     color: #3ddc97 !important;
     width: 100% !important;
-    min-height: 58px !important;
+    min-height: 64px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
     box-shadow: 0 12px 26px rgba(61,220,151,0.35) !important;
@@ -267,13 +267,13 @@ st.markdown("""<style>
 .option-btn-wrong button {
     border-radius: 12px !important;
     padding: 0.55rem 0.5rem !important;
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
     font-weight: 600 !important;
     border: 2px solid #ff6b6b !important;
     background: #261119 !important;
     color: #ff6b6b !important;
     width: 100% !important;
-    min-height: 58px !important;
+    min-height: 64px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
     box-shadow: 0 12px 26px rgba(255,107,107,0.3) !important;
@@ -285,7 +285,7 @@ st.markdown("""<style>
 div[data-testid="stButton"] > button[kind="primary"] {
     border-radius: 999px !important;
     padding: 0.55rem 1.4rem !important;
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
     font-weight: 500 !important;
     background: linear-gradient(135deg, #4f8cff, #6fa8ff) !important;
     color: #ffffff !important;
@@ -304,20 +304,20 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
 div[data-testid="stButton"] > button[kind="secondary"] {
     border-radius: 999px !important;
     padding: 0.55rem 1.4rem !important;
-    font-size: 1rem !important;
+    font-size: 1.05rem !important;
     font-weight: 500 !important;
-    background: linear-gradient(135deg, #7a3800, #b85000) !important;
-    color: #ffe0c0 !important;
-    border: 1px solid rgba(200,100,0,0.7) !important;
+    background: linear-gradient(135deg, #5b21b6, #7c3aed) !important;
+    color: #ede9fe !important;
+    border: 1px solid rgba(139,92,246,0.7) !important;
     transition: all 0.16s ease-out !important;
     box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
     width: 100% !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    filter: brightness(1.1) !important;
+    filter: brightness(1.15) !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 14px 30px rgba(180,80,0,0.4) !important;
+    box-shadow: 0 14px 30px rgba(124,58,237,0.45) !important;
 }
 
 .stAlert {
@@ -342,8 +342,8 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 }
 
 .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.55rem; }
-.progress-title { font-size: 1.1rem; font-weight: 600; color: #f5f7fa; }
-.progress-subtitle { font-size: 0.95rem; color: #8f95a3; }
+.progress-title { font-size: 1.2rem; font-weight: 600; color: #f5f7fa; }
+.progress-subtitle { font-size: 1rem; color: #8f95a3; }
 
 .stat-row { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; margin-top: 0.55rem; }
 
@@ -354,7 +354,7 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
     padding: 0.16rem 0.7rem;
     border-radius: 999px;
     background: #202431;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     color: #d0d4e2;
     border: 1px solid rgba(75,85,116,0.9);
 }
@@ -367,20 +367,20 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 .stProgress > div > div { background-color: #202636; border-radius: 999px; }
 .stProgress > div > div > div { background: linear-gradient(90deg, #4f8cff, #3ddc97); border-radius: 999px; }
 
-.tip-box { font-size: 0.95rem; color: #8b92a0; margin-top: 0.95rem; line-height: 1.5; }
+.tip-box { font-size: 1.05rem; color: #8b92a0; margin-top: 0.95rem; line-height: 1.5; }
 
 @media (max-width: 640px) {
     div[data-testid="stMainBlockContainer"] { padding-top: 2rem !important; }
     section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; }
     .app-header-card { padding: 0.55rem 1rem; margin-bottom: 0.7rem; }
-    .app-title { font-size: 1.5rem; }
-    .german-word { font-size: 1.8rem; margin-bottom: 0.2rem; }
-    .meta-info { font-size: 0.95rem; }
-    .answer-label { font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .app-title { font-size: 1.6rem; }
+    .german-word { font-size: 2rem; margin-bottom: 0.2rem; }
+    .meta-info { font-size: 1rem; }
+    .answer-label { font-size: 1rem; margin-bottom: 0.25rem; }
     .option-btn button, .option-btn-selected button,
     .option-btn-correct button, .option-btn-wrong button {
-        font-size: 0.92rem !important;
-        min-height: 58px !important;
+        font-size: 1rem !important;
+        min-height: 64px !important;
         padding: 0.35rem 0.3rem !important;
     }
     header[data-testid="stHeader"]::before,
