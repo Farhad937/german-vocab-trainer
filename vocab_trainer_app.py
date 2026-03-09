@@ -38,6 +38,8 @@ def setup_new_question() -> None:
     st.session_state.correct_answer = correct
     st.session_state.options = options
     st.session_state.answered_current_question = False
+    st.session_state.selected_answer = None
+    st.session_state.answer_checked = False
 
 
 if "correct" not in st.session_state:
@@ -48,6 +50,10 @@ if "answered_current_question" not in st.session_state:
     st.session_state.answered_current_question = False
 if "round_complete" not in st.session_state:
     st.session_state.round_complete = False
+if "selected_answer" not in st.session_state:
+    st.session_state.selected_answer = None
+if "answer_checked" not in st.session_state:
+    st.session_state.answer_checked = False
 
 if ("current_word" not in st.session_state or "options" not in st.session_state or "correct_answer" not in st.session_state):
     setup_new_question()
@@ -65,7 +71,6 @@ CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Force consistent text sizing across all browsers and prevent cache issues */
 *, *::before, *::after {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -228,20 +233,10 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
 
 .meta-highlight { font-weight: 500; color: var(--accent); }
 
-.example-container {
-    background: var(--card-bg-2);
-    border-radius: 12px;
-    padding: 0.65rem 0.8rem;
-    margin-top: 0.35rem;
-    border: 1px solid rgba(68,78,102,0.75);
-}
-
 .stCheckbox > label, .stCheckbox span {
     font-size: 0.85rem;
     color: var(--text-muted);
 }
-
-.answer-area > div { margin-top: 0.45rem; }
 
 .answer-label {
     font-size: 0.9rem;
@@ -250,71 +245,80 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     font-weight: 500;
 }
 
-/* Radio cards — desktop vertical stack */
-div.stRadio > div[role="radiogroup"],
-div[data-testid="stRadio"] > div,
-div[class*="stRadio"] > div {
-    gap: 0.6rem;
-    display: flex;
-    flex-direction: column;
-}
-
-div.stRadio > div[role="radiogroup"] > label,
-div[data-testid="stRadio"] > div > label,
-div[class*="stRadio"] > div > label {
-    border-radius: 12px;
-    padding: 0.65rem 0.9rem;
-    border: 1px solid rgba(81,92,123,0.9);
-    background: #1f222b;
-    display: flex;
-    align-items: center;
-    transition: all 0.18s ease-out;
-    box-shadow: 0 6px 14px rgba(0,0,0,0.55);
-    width: 100%;
-    height: 58px;
-    overflow: hidden;
-}
-
-div.stRadio > div[role="radiogroup"] > label:hover,
-div[data-testid="stRadio"] > div > label:hover,
-div[class*="stRadio"] > div > label:hover {
-    border-color: #4f8cff;
-    background: #252a35;
-    box-shadow: 0 10px 22px rgba(79,140,255,0.32);
-    transform: translateY(-1px);
-}
-
-div.stRadio > div[role="radiogroup"] > label div[role="radio"] { margin-right: 0.6rem; }
-
-div.stRadio > div[role="radiogroup"] > label span,
-div[data-testid="stRadio"] > div > label span {
+/* Custom option buttons — unselected */
+.option-btn button {
+    border-radius: 12px !important;
+    padding: 0.55rem 0.5rem !important;
+    font-size: 0.85rem !important;
+    font-weight: 400 !important;
+    border: 1px solid rgba(81,92,123,0.9) !important;
+    background: #1f222b !important;
     color: #d5d8e4 !important;
-    font-size: 0.9rem;
+    width: 100% !important;
+    min-height: 58px !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+    transition: all 0.18s ease-out !important;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.55) !important;
+    text-align: center !important;
 }
 
-div.stRadio > div[role="radiogroup"] > label p,
-div[data-testid="stRadio"] > div > label p {
-    color: #d5d8e4 !important;
-    margin: 0 !important;
+.option-btn button:hover {
+    border-color: #4f8cff !important;
+    background: #252a35 !important;
+    box-shadow: 0 10px 22px rgba(79,140,255,0.32) !important;
+    transform: translateY(-1px) !important;
 }
 
-div.stRadio > div[role="radiogroup"] > label span,
-div.stRadio > div[role="radiogroup"] > label p,
-div[data-testid="stRadio"] > div > label span,
-div[data-testid="stRadio"] > div > label p {
-    display: -webkit-box !important;
-    -webkit-box-orient: vertical !important;
-    -webkit-line-clamp: 2 !important;
-    overflow: hidden !important;
-    line-height: 1.25 !important;
+/* Selected option */
+.option-btn-selected button {
+    border-radius: 12px !important;
+    padding: 0.55rem 0.5rem !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    border: 2px solid var(--accent) !important;
+    background: #262c3a !important;
+    color: #ffffff !important;
+    width: 100% !important;
+    min-height: 58px !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+    box-shadow: 0 12px 26px rgba(79,140,255,0.4) !important;
+    text-align: center !important;
 }
 
-div.stRadio > div[role="radiogroup"] > label[data-checked="true"],
-div.stRadio > div[role="radiogroup"] > label:has(input:checked),
-div[data-testid="stRadio"] > div > label:has(input:checked) {
-    border-color: var(--accent);
-    background: #262c3a;
-    box-shadow: 0 12px 26px rgba(79,140,255,0.4);
+/* Correct answer highlight after checking */
+.option-btn-correct button {
+    border-radius: 12px !important;
+    padding: 0.55rem 0.5rem !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    border: 2px solid #3ddc97 !important;
+    background: #11241c !important;
+    color: #3ddc97 !important;
+    width: 100% !important;
+    min-height: 58px !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+    box-shadow: 0 12px 26px rgba(61,220,151,0.35) !important;
+    text-align: center !important;
+}
+
+/* Wrong answer highlight after checking */
+.option-btn-wrong button {
+    border-radius: 12px !important;
+    padding: 0.55rem 0.5rem !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    border: 2px solid #ff6b6b !important;
+    background: #261119 !important;
+    color: #ff6b6b !important;
+    width: 100% !important;
+    min-height: 58px !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+    box-shadow: 0 12px 26px rgba(255,107,107,0.3) !important;
+    text-align: center !important;
 }
 
 .button-row {
@@ -325,55 +329,44 @@ div[data-testid="stRadio"] > div > label:has(input:checked) {
     margin-bottom: 0.25rem;
 }
 
-.stButton > button {
+/* Check / Next buttons */
+div[data-testid="stButton"] > button[kind="primary"] {
     border-radius: 999px !important;
     padding: 0.55rem 1.4rem !important;
     font-size: 0.9rem !important;
     font-weight: 500 !important;
-    border: 1px solid rgba(81,92,123,0.9) !important;
-    cursor: pointer !important;
-    transition: all 0.16s ease-out !important;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
-    background: var(--card-bg-2) !important;
-    color: var(--text) !important;
-}
-
-div[data-testid="stButton"] > button[kind="primary"] {
     background: linear-gradient(135deg, var(--accent), #6fa8ff) !important;
     color: #ffffff !important;
     border: 1px solid rgba(118,162,255,0.9) !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease-out !important;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
 }
 
 div[data-testid="stButton"] > button[kind="primary"]:hover {
-    filter: brightness(1.06);
-    transform: translateY(-1px);
+    filter: brightness(1.06) !important;
+    transform: translateY(-1px) !important;
     box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"] {
+    border-radius: 999px !important;
+    padding: 0.55rem 1.4rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
     background: var(--card-bg-2) !important;
     color: var(--text) !important;
     border: 1px solid rgba(79,140,255,0.7) !important;
+    cursor: pointer !important;
+    transition: all 0.16s ease-out !important;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
 }
 
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
     background: #262b36 !important;
-    transform: translateY(-1px);
+    transform: translateY(-1px) !important;
     box-shadow: 0 14px 30px rgba(79,140,255,0.28) !important;
 }
-
-div[data-testid="stButton"] > button[kind="secondary"]:disabled,
-div[data-testid="stButton"] > button[kind="secondary"][disabled] {
-    opacity: 0.45 !important;
-    cursor: not-allowed !important;
-    box-shadow: none !important;
-    transform: none !important;
-    border-color: rgba(81,92,123,0.9) !important;
-    background: #20232b !important;
-    color: #777e90 !important;
-}
-
-div[data-testid="stButton"] > button:hover { filter: brightness(1.03); }
 
 .stAlert {
     border-radius: 12px;
@@ -413,7 +406,6 @@ div[data-testid="stButton"] > button:hover { filter: brightness(1.03); }
     flex-wrap: wrap;
     gap: 0.6rem 1rem;
     margin-top: 0.55rem;
-    font-size: 0.86rem;
     color: #d0d4e2;
 }
 
@@ -439,7 +431,6 @@ div[data-testid="stButton"] > button:hover { filter: brightness(1.03); }
 
 .tip-box { font-size: 0.82rem; color: #8b92a0; margin-top: 0.95rem; line-height: 1.5; }
 
-/* Mobile */
 @media (max-width: 640px) {
     div[data-testid="stMainBlockContainer"] { padding-top: 2rem !important; }
     section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; }
@@ -453,35 +444,17 @@ div[data-testid="stButton"] > button:hover { filter: brightness(1.03); }
     .german-word { font-size: 1.35rem; margin-bottom: 0.2rem; }
     .meta-info { font-size: 0.78rem; margin-bottom: 0.06rem; }
     .answer-label { font-size: 0.78rem; margin-bottom: 0.25rem; }
-    .btncols .stButton > button { font-size: 0.8rem !important; padding: 0.42rem 0.7rem !important; }
-    .example-container { margin-bottom: 0.45rem; }
-    .qcols div[data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0.35rem !important; }
-
-    /* 2x2 grid for answer options on mobile */
-    div[data-testid="stRadio"] > div {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 0.35rem !important;
-    }
-    div[data-testid="stRadio"] > div > label {
-        height: 52px !important;
-        padding: 0.4rem 0.5rem !important;
-        min-width: 0 !important;
-        width: 100% !important;
-        white-space: normal !important;
-    }
-    div[data-testid="stRadio"] > div > label span,
-    div[data-testid="stRadio"] > div > label p {
+    .option-btn button, .option-btn-selected button,
+    .option-btn-correct button, .option-btn-wrong button {
         font-size: 0.75rem !important;
-        white-space: normal !important;
-        word-break: break-word !important;
+        min-height: 52px !important;
+        padding: 0.35rem 0.3rem !important;
     }
 }
 </style>
 """
 
 st.markdown(CSS, unsafe_allow_html=True)
-
 st.markdown('<div class="app-wrapper">', unsafe_allow_html=True)
 
 st.markdown(
@@ -508,30 +481,63 @@ with col_left:
         st.markdown(f'<div class="meta-info">Example: {word["example"]}</div>', unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
-st.markdown("<div class='answer-area'>", unsafe_allow_html=True)
+# -------------------
+# Custom 2x2 option buttons — replaces st.radio entirely
+# -------------------
 st.markdown("<div class='answer-label'>Select the correct English meaning:</div>", unsafe_allow_html=True)
-choice = st.radio("", options, key="answer_choice", horizontal=True)
-st.markdown("</div>", unsafe_allow_html=True)
 
+col1, col2 = st.columns(2)
+cols = [col1, col2, col1, col2]
+
+for i, option in enumerate(options):
+    selected = st.session_state.selected_answer
+    checked = st.session_state.answer_checked
+
+    if checked:
+        if option == correct_answer:
+            css_class = "option-btn-correct"
+        elif option == selected:
+            css_class = "option-btn-wrong"
+        else:
+            css_class = "option-btn"
+    else:
+        css_class = "option-btn-selected" if option == selected else "option-btn"
+
+    with cols[i]:
+        st.markdown(f'<div class="{css_class}">', unsafe_allow_html=True)
+        if st.button(option, key=f"opt_{i}", use_container_width=True):
+            if not st.session_state.answer_checked:
+                st.session_state.selected_answer = option
+                st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# -------------------
+# Check / Next buttons
+# -------------------
 st.markdown('<div class="button-row btncols">', unsafe_allow_html=True)
 check_col, next_col = st.columns(2)
+
 with check_col:
-    with st.container():
-        check_clicked = st.button("Check answer", key="check_btn", type="primary", use_container_width=True)
+    check_clicked = st.button("Check answer", key="check_btn", type="primary", use_container_width=True)
+
 with next_col:
-    with st.container():
-        next_clicked = st.button("Next word", key="next_btn", type="secondary", use_container_width=True)
+    next_clicked = st.button("Next word", key="next_btn", type="secondary", use_container_width=True)
+
 st.markdown("</div>", unsafe_allow_html=True)
 
 if check_clicked:
-    selected = st.session_state.get("answer_choice")
-    if selected == correct_answer:
-        st.success("✅ Correct! Nice work.")
-        st.session_state.correct += 1
-    else:
-        st.error(f"❌ Not quite. The correct answer is: {correct_answer}")
-        st.session_state.wrong += 1
-    st.session_state.answered_current_question = True
+    if st.session_state.selected_answer is None:
+        st.warning("Please select an answer first.")
+    elif not st.session_state.answer_checked:
+        st.session_state.answer_checked = True
+        if st.session_state.selected_answer == correct_answer:
+            st.success("✅ Correct! Nice work.")
+            st.session_state.correct += 1
+        else:
+            st.error(f"❌ Not quite. The correct answer is: {correct_answer}")
+            st.session_state.wrong += 1
+        st.session_state.answered_current_question = True
+        st.rerun()
 
 if next_clicked:
     setup_new_question()
@@ -540,6 +546,18 @@ if next_clicked:
     except AttributeError:
         st.experimental_rerun()
 
+# -------------------
+# Show result message after rerun
+# -------------------
+if st.session_state.answer_checked:
+    if st.session_state.selected_answer == correct_answer:
+        st.success("✅ Correct! Nice work.")
+    else:
+        st.error(f"❌ Not quite. The correct answer is: {correct_answer}")
+
+# -------------------
+# Progress tracker
+# -------------------
 total_answered = st.session_state.correct + st.session_state.wrong
 accuracy = (st.session_state.correct / total_answered) * 100 if total_answered else 0.0
 words_left = len(st.session_state.get("word_queue", []))
