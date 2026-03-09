@@ -62,8 +62,22 @@ word = st.session_state.current_word
 correct_answer = st.session_state.correct_answer
 options = st.session_state.options
 
+# -------------------
+# Fix viewport via JavaScript — overrides Streamlit's own meta tag
+# -------------------
 st.markdown(
-    '<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">',
+    """
+    <script>
+        (function() {
+            var existing = document.querySelector('meta[name="viewport"]');
+            if (existing) { existing.parentNode.removeChild(existing); }
+            var meta = document.createElement('meta');
+            meta.name = 'viewport';
+            meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0';
+            document.head.appendChild(meta);
+        })();
+    </script>
+    """,
     unsafe_allow_html=True,
 )
 
@@ -245,7 +259,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     font-weight: 500;
 }
 
-/* Custom option buttons — unselected */
+/* Option buttons — unselected */
 .option-btn button {
     border-radius: 12px !important;
     padding: 0.55rem 0.5rem !important;
@@ -276,7 +290,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     padding: 0.55rem 0.5rem !important;
     font-size: 0.85rem !important;
     font-weight: 600 !important;
-    border: 2px solid var(--accent) !important;
+    border: 2px solid #4f8cff !important;
     background: #262c3a !important;
     color: #ffffff !important;
     width: 100% !important;
@@ -287,7 +301,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     text-align: center !important;
 }
 
-/* Correct answer highlight after checking */
+/* Correct answer */
 .option-btn-correct button {
     border-radius: 12px !important;
     padding: 0.55rem 0.5rem !important;
@@ -304,7 +318,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     text-align: center !important;
 }
 
-/* Wrong answer highlight after checking */
+/* Wrong answer */
 .option-btn-wrong button {
     border-radius: 12px !important;
     padding: 0.55rem 0.5rem !important;
@@ -329,264 +343,14 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
     margin-bottom: 0.25rem;
 }
 
-/* Check / Next buttons */
+/* Check answer button */
 div[data-testid="stButton"] > button[kind="primary"] {
     border-radius: 999px !important;
     padding: 0.55rem 1.4rem !important;
     font-size: 0.9rem !important;
     font-weight: 500 !important;
-    background: linear-gradient(135deg, var(--accent), #6fa8ff) !important;
+    background: linear-gradient(135deg, #4f8cff, #6fa8ff) !important;
     color: #ffffff !important;
     border: 1px solid rgba(118,162,255,0.9) !important;
     cursor: pointer !important;
     transition: all 0.16s ease-out !important;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
-}
-
-div[data-testid="stButton"] > button[kind="primary"]:hover {
-    filter: brightness(1.06) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
-}
-
-div[data-testid="stButton"] > button[kind="secondary"] {
-    border-radius: 999px !important;
-    padding: 0.55rem 1.4rem !important;
-    font-size: 0.9rem !important;
-    font-weight: 500 !important;
-    background: var(--card-bg-2) !important;
-    color: var(--text) !important;
-    border: 1px solid rgba(79,140,255,0.7) !important;
-    cursor: pointer !important;
-    transition: all 0.16s ease-out !important;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
-}
-
-div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    background: #262b36 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 14px 30px rgba(79,140,255,0.28) !important;
-}
-
-.stAlert {
-    border-radius: 12px;
-    padding: 0.7rem 0.9rem;
-    border: 1px solid transparent;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.65);
-    background: transparent;
-}
-
-.stAlert > div { padding: 0 !important; }
-.stAlert-success { background-color: #11241c !important; border-color: rgba(61,220,151,0.6) !important; color: #c9f6e3 !important; }
-.stAlert-error { background-color: #261119 !important; border-color: rgba(255,107,107,0.7) !important; color: #ffd4d4 !important; }
-.stAlert-success * { color: #c9f6e3 !important; }
-.stAlert-error * { color: #ffd4d4 !important; }
-
-.progress-card {
-    background: #151822;
-    border-radius: 16px;
-    padding: 1.15rem 1.5rem 1.25rem;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.75);
-    border: 1px solid rgba(61,72,102,0.7);
-    margin-top: 1.1rem;
-}
-
-.progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 0.55rem;
-}
-
-.progress-title { font-size: 0.95rem; font-weight: 600; color: #f5f7fa; }
-.progress-subtitle { font-size: 0.8rem; color: #8f95a3; }
-
-.stat-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem 1rem;
-    margin-top: 0.55rem;
-    color: #d0d4e2;
-}
-
-.stat-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.16rem 0.7rem;
-    border-radius: 999px;
-    background: #202431;
-    font-size: 0.8rem;
-    color: #d0d4e2;
-    border: 1px solid rgba(75,85,116,0.9);
-}
-
-.stat-pill--correct { background: #14291f; border-color: rgba(61,220,151,0.7); color: #a9f0cd; }
-.stat-pill--wrong { background: #2a181c; border-color: rgba(255,107,107,0.72); color: #ffc0c0; }
-.stat-pill--total { background: #202534; border-color: rgba(122,132,160,0.9); color: #e0e4f3; }
-.stat-pill--remaining { background: #1c2030; border-color: rgba(79,140,255,0.6); color: #b8caff; }
-
-.stProgress > div > div { background-color: #202636; border-radius: 999px; }
-.stProgress > div > div > div { background: linear-gradient(90deg, var(--accent), var(--success)); border-radius: 999px; }
-
-.tip-box { font-size: 0.82rem; color: #8b92a0; margin-top: 0.95rem; line-height: 1.5; }
-
-@media (max-width: 640px) {
-    div[data-testid="stMainBlockContainer"] { padding-top: 2rem !important; }
-    section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; }
-    .app-wrapper { padding-top: 0.1rem; }
-    .app-header-card { padding: 0.55rem 1rem; margin-bottom: 0.7rem; }
-    .app-title { font-size: 1.3rem; }
-    header[data-testid="stHeader"]::before,
-    div[data-testid="stHeader"]::before { left: 12px; top: 10px; width: 28px; height: 28px; font-size: 0.74rem; }
-    header[data-testid="stHeader"]::after,
-    div[data-testid="stHeader"]::after { left: 46px; top: 13px; font-size: 0.8rem; padding: 0.26rem 0.55rem; }
-    .german-word { font-size: 1.35rem; margin-bottom: 0.2rem; }
-    .meta-info { font-size: 0.78rem; margin-bottom: 0.06rem; }
-    .answer-label { font-size: 0.78rem; margin-bottom: 0.25rem; }
-    .option-btn button, .option-btn-selected button,
-    .option-btn-correct button, .option-btn-wrong button {
-        font-size: 0.75rem !important;
-        min-height: 52px !important;
-        padding: 0.35rem 0.3rem !important;
-    }
-}
-</style>
-"""
-
-st.markdown(CSS, unsafe_allow_html=True)
-st.markdown('<div class="app-wrapper">', unsafe_allow_html=True)
-
-st.markdown(
-    '<div class="app-header-card"><div class="app-title">Deutsch Trainer</div></div>',
-    unsafe_allow_html=True,
-)
-
-if st.session_state.get("round_complete"):
-    st.success(f"🎉 You've reviewed all {len(vocab)} words! Starting a new round.")
-
-st.markdown(f'<div class="german-word">{word["german"]}</div>', unsafe_allow_html=True)
-
-st.markdown('<div class="qcols">', unsafe_allow_html=True)
-col_left, _ = st.columns([2.2, 1.8])
-with col_left:
-    show_plural = st.checkbox("Show plural", value=True)
-    if show_plural:
-        if word["plural"]:
-            st.markdown(f'<div class="meta-info"><span class="meta-highlight">Plural</span>: {word["plural"]}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div class="meta-info"><span class="meta-highlight">Plural</span>: not available for this word</div>', unsafe_allow_html=True)
-    show_example = st.checkbox("Show example", value=True)
-    if show_example and word["example"]:
-        st.markdown(f'<div class="meta-info">Example: {word["example"]}</div>', unsafe_allow_html=True)
-st.markdown("</div>", unsafe_allow_html=True)
-
-# -------------------
-# Custom 2x2 option buttons — replaces st.radio entirely
-# -------------------
-st.markdown("<div class='answer-label'>Select the correct English meaning:</div>", unsafe_allow_html=True)
-
-col1, col2 = st.columns(2)
-cols = [col1, col2, col1, col2]
-
-for i, option in enumerate(options):
-    selected = st.session_state.selected_answer
-    checked = st.session_state.answer_checked
-
-    if checked:
-        if option == correct_answer:
-            css_class = "option-btn-correct"
-        elif option == selected:
-            css_class = "option-btn-wrong"
-        else:
-            css_class = "option-btn"
-    else:
-        css_class = "option-btn-selected" if option == selected else "option-btn"
-
-    with cols[i]:
-        st.markdown(f'<div class="{css_class}">', unsafe_allow_html=True)
-        if st.button(option, key=f"opt_{i}", use_container_width=True):
-            if not st.session_state.answer_checked:
-                st.session_state.selected_answer = option
-                st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
-
-# -------------------
-# Check / Next buttons
-# -------------------
-st.markdown('<div class="button-row btncols">', unsafe_allow_html=True)
-check_col, next_col = st.columns(2)
-
-with check_col:
-    check_clicked = st.button("Check answer", key="check_btn", type="primary", use_container_width=True)
-
-with next_col:
-    next_clicked = st.button("Next word", key="next_btn", type="secondary", use_container_width=True)
-
-st.markdown("</div>", unsafe_allow_html=True)
-
-if check_clicked:
-    if st.session_state.selected_answer is None:
-        st.warning("Please select an answer first.")
-    elif not st.session_state.answer_checked:
-        st.session_state.answer_checked = True
-        if st.session_state.selected_answer == correct_answer:
-            st.success("✅ Correct! Nice work.")
-            st.session_state.correct += 1
-        else:
-            st.error(f"❌ Not quite. The correct answer is: {correct_answer}")
-            st.session_state.wrong += 1
-        st.session_state.answered_current_question = True
-        st.rerun()
-
-if next_clicked:
-    setup_new_question()
-    try:
-        st.rerun()
-    except AttributeError:
-        st.experimental_rerun()
-
-# -------------------
-# Show result message after rerun
-# -------------------
-if st.session_state.answer_checked:
-    if st.session_state.selected_answer == correct_answer:
-        st.success("✅ Correct! Nice work.")
-    else:
-        st.error(f"❌ Not quite. The correct answer is: {correct_answer}")
-
-# -------------------
-# Progress tracker
-# -------------------
-total_answered = st.session_state.correct + st.session_state.wrong
-accuracy = (st.session_state.correct / total_answered) * 100 if total_answered else 0.0
-words_left = len(st.session_state.get("word_queue", []))
-
-st.markdown('<div class="progress-card">', unsafe_allow_html=True)
-st.markdown(
-    f"""
-    <div class="progress-header">
-        <div class="progress-title">Session progress</div>
-        <div class="progress-subtitle">{'Nice rhythm - keep going.' if total_answered else 'Answer your first question to begin.'}</div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-st.progress(accuracy / 100 if accuracy else 0.0)
-st.markdown(
-    f"""
-    <div class="stat-row">
-        <div class="stat-pill stat-pill--correct">✅ Correct: {st.session_state.correct}</div>
-        <div class="stat-pill stat-pill--wrong">❌ Wrong: {st.session_state.wrong}</div>
-        <div class="stat-pill stat-pill--total">📚 Total: {total_answered}</div>
-        <div class="stat-pill">🎯 Accuracy: {accuracy:.1f}%</div>
-        <div class="stat-pill stat-pill--remaining">📖 Words left this round: {words_left} / {len(vocab)}</div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-st.markdown(
-    '<div class="tip-box">You can extend your deck at any time by editing <code>vocab.csv</code>. New words will appear automatically in future questions.</div>',
-    unsafe_allow_html=True,
-)
-st.markdown("</div>", unsafe_allow_html=True)
