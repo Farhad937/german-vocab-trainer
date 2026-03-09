@@ -65,6 +65,13 @@ CSS = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* Force consistent text sizing across all browsers and prevent cache issues */
+*, *::before, *::after {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    box-sizing: border-box;
+}
+
 :root {
     --app-bg: #0f1117;
     --app-bg-2: #05060a;
@@ -310,29 +317,6 @@ div[data-testid="stRadio"] > div > label:has(input:checked) {
     box-shadow: 0 12px 26px rgba(79,140,255,0.4);
 }
 
-/* horizontal=True native Streamlit radio styling on mobile */
-@media (max-width: 640px) {
-    div[data-testid="stRadio"] > div {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 0.35rem !important;
-    }
-    div[data-testid="stRadio"] > div > label {
-        height: 52px !important;
-        padding: 0.4rem 0.5rem !important;
-        font-size: 0.75rem !important;
-        min-width: 0 !important;
-        width: 100% !important;
-        white-space: normal !important;
-    }
-    div[data-testid="stRadio"] > div > label span,
-    div[data-testid="stRadio"] > div > label p {
-        font-size: 0.75rem !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-    }
-}
-
 .button-row {
     display: flex;
     flex-wrap: wrap;
@@ -455,6 +439,7 @@ div[data-testid="stButton"] > button:hover { filter: brightness(1.03); }
 
 .tip-box { font-size: 0.82rem; color: #8b92a0; margin-top: 0.95rem; line-height: 1.5; }
 
+/* Mobile */
 @media (max-width: 640px) {
     div[data-testid="stMainBlockContainer"] { padding-top: 2rem !important; }
     section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; }
@@ -471,6 +456,26 @@ div[data-testid="stButton"] > button:hover { filter: brightness(1.03); }
     .btncols .stButton > button { font-size: 0.8rem !important; padding: 0.42rem 0.7rem !important; }
     .example-container { margin-bottom: 0.45rem; }
     .qcols div[data-testid="stHorizontalBlock"] { flex-direction: column !important; gap: 0.35rem !important; }
+
+    /* 2x2 grid for answer options on mobile */
+    div[data-testid="stRadio"] > div {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.35rem !important;
+    }
+    div[data-testid="stRadio"] > div > label {
+        height: 52px !important;
+        padding: 0.4rem 0.5rem !important;
+        min-width: 0 !important;
+        width: 100% !important;
+        white-space: normal !important;
+    }
+    div[data-testid="stRadio"] > div > label span,
+    div[data-testid="stRadio"] > div > label p {
+        font-size: 0.75rem !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
 }
 </style>
 """
