@@ -52,15 +52,6 @@ if "answer_checked" not in st.session_state: st.session_state.answer_checked = F
 if "current_word" not in st.session_state or "options" not in st.session_state or "correct_answer" not in st.session_state:
     setup_new_question()
 
-# Handle click from query params
-params = st.query_params
-if "pick" in params and not st.session_state.answer_checked:
-    picked = params["pick"]
-    if picked in st.session_state.options:
-        st.session_state.selected_answer = picked
-    st.query_params.clear()
-    st.rerun()
-
 word = st.session_state.current_word
 correct_answer = st.session_state.correct_answer
 options = st.session_state.options
@@ -120,38 +111,21 @@ section[data-testid="stMain"] > div:first-child { padding-top:0.5rem !important;
     background:linear-gradient(90deg,#4f8cff,transparent);
 }
 .app-title { font-size:2.4rem; font-weight:700; letter-spacing:0.03em; color:#f5f7fa; margin:0; line-height:1.1; }
-.vocab-card {
-    background:linear-gradient(145deg,#0f172a,#020617); padding:1.9rem 2.1rem; border-radius:20px;
-    box-shadow:0 16px 46px rgba(0,0,0,0.7); width:100%; max-width:780px; text-align:center;
-    border:1px solid rgba(79,140,255,0.45);
-}
 .german-word { font-size:3.0rem; font-weight:700; color:#ffffff; margin-bottom:0.75rem; }
 .meta-info { font-size:1.4rem; color:var(--text-muted); margin-bottom:0.15rem; line-height:1.4; }
 .meta-highlight { font-weight:500; color:var(--accent); }
 .answer-label { font-size:1.5rem; color:#e1e4ec; margin-bottom:0.75rem; font-weight:600; }
 
-/* Option cards */
+/* Option cards — desktop */
 .opt-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.65rem; margin-bottom:1.6rem; }
 .opt-card {
-    background: #1A3A3A;
-    color: #cde8e8;
-    border: 1px solid rgba(42,110,110,0.9);
-    border-radius: 12px;
-    padding: 0.5rem 0.75rem;
-    font-size: 1.2rem;
-    font-weight: 500;
-    width: 100%;
-    min-height: 58px;
-    white-space: normal;
-    line-height: 1.3;
-    cursor: pointer;
-    font-family: Inter, system-ui, sans-serif;
-    transition: all 0.18s ease-out;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.55);
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #1A3A3A; color: #cde8e8;
+    border: 1px solid rgba(42,110,110,0.9); border-radius: 12px;
+    padding: 0.5rem 0.75rem; font-size: 1.2rem; font-weight: 500;
+    width: 100%; min-height: 58px; white-space: normal; line-height: 1.3;
+    cursor: pointer; font-family: Inter, system-ui, sans-serif;
+    transition: all 0.18s ease-out; box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+    text-align: center; display: flex; align-items: center; justify-content: center;
 }
 .opt-card:hover { background: #1f4545; border-color: #3d9e9e; box-shadow: 0 14px 30px rgba(42,110,110,0.45); transform: scale(1.02); }
 .opt-card.selected { background: #1A3A3A; color: #ffffff; border: 2px solid #5ecece; box-shadow: 0 12px 28px rgba(94,206,206,0.35); }
@@ -159,7 +133,7 @@ section[data-testid="stMain"] > div:first-child { padding-top:0.5rem !important;
 .opt-card.wrong    { background: #261119; color: #ff6b6b; border: 2px solid #ff6b6b; box-shadow: 0 12px 26px rgba(255,107,107,0.3); cursor: default; }
 .opt-card.neutral  { cursor: default; opacity: 0.7; }
 
-/* Check / Next */
+/* Check / Next buttons */
 div[data-testid="stButton"] > button[kind="primary"],
 div[data-testid="stButton"] > button[kind="secondary"] {
     border-radius: 999px !important; padding: 0.55rem 1.4rem !important;
@@ -174,6 +148,7 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
     filter: brightness(1.06) !important; transform: translateY(-1px) !important;
     box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
 }
+
 .stAlert { border-radius:12px; padding:0.7rem 0.9rem; border:1px solid transparent; box-shadow:0 10px 24px rgba(0,0,0,0.65); }
 .stAlert-success { background-color:#11241c !important; border-color:rgba(61,220,151,0.6) !important; }
 .stAlert-success * { color:#c9f6e3 !important; }
@@ -199,6 +174,8 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 .stProgress > div > div { background-color:#202636; border-radius:999px; }
 .stProgress > div > div > div { background:linear-gradient(90deg,#4f8cff,#3ddc97); border-radius:999px; }
 .tip-box { font-size:1.15rem; color:#8b92a0; margin-top:0.95rem; line-height:1.5; }
+
+/* Mobile */
 @media (max-width:640px) {
     div[data-testid="stMainBlockContainer"] { padding-top:2rem !important; }
     section[data-testid="stMain"] > div:first-child { padding-top:2rem !important; }
@@ -206,25 +183,22 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
     .german-word { font-size:3.8rem; }
     .meta-info { font-size:1.95rem; }
     .answer-label { font-size:2rem; }
+    .opt-grid { gap:1.1rem; margin-bottom:2rem; }
     .opt-card { font-size:1.85rem; min-height:90px; padding:0.85rem; }
     .progress-title { font-size:1.8rem; }
     .progress-subtitle { font-size:1.55rem; }
     .stat-pill { font-size:1.55rem; }
     .tip-box { font-size:1.55rem; }
     div[data-testid="stButton"] > button[kind="primary"],
-    div[data-testid="stButton"] > button[kind="secondary"] { font-size:1.75rem !important; }
+    div[data-testid="stButton"] > button[kind="secondary"] { font-size:1.75rem !important; padding: 0.8rem 1.4rem !important; }
     header[data-testid="stHeader"]::before, div[data-testid="stHeader"]::before { left:10px; top:4px; width:40px; height:40px; font-size:1rem; }
     header[data-testid="stHeader"]::after, div[data-testid="stHeader"]::after { left:58px; top:8px; font-size:0.95rem; padding:0.35rem 0.85rem; }
 }
-
-/* Hide empty vocab-card div */
-.vocab-card:empty { display:none !important; }
 </style>""", unsafe_allow_html=True)
 
 # ── UI ──────────────────────────────────────────────────────────────────────────
 st.markdown('<div class="app-wrapper">', unsafe_allow_html=True)
 st.markdown('<div class="app-header-card"><div class="app-title">Deutsch Trainer</div></div>', unsafe_allow_html=True)
-st.markdown('<div class="vocab-card">', unsafe_allow_html=True)
 
 if st.session_state.get("round_complete"):
     st.success(f"🎉 You've reviewed all {len(vocab)} words! Starting a new round.")
@@ -245,7 +219,7 @@ with col_left:
 
 st.markdown("<div class='answer-label'>Select the correct English meaning:</div>", unsafe_allow_html=True)
 
-# ── Option cards: pure HTML, clicks handled via URL query params ────────────────
+# ── Option cards: st.button for reliable click handling, styled via CSS ─────────
 selected = st.session_state.selected_answer
 checked = st.session_state.answer_checked
 
@@ -258,17 +232,43 @@ def get_card_class(option):
         if option == selected: return "opt-card selected"
         return "opt-card"
 
+# Render HTML cards for display
 cards_html = '<div class="opt-grid">'
 for option in options:
     cls = get_card_class(option)
-    # clicking sets ?pick=<option> in the URL, Streamlit re-runs and we read it above
-    if not checked:
-        onclick = f"onclick=\"window.location.search='?pick='+encodeURIComponent('{option}')\""
-    else:
-        onclick = ""
-    cards_html += f'<button class="{cls}" {onclick}>{option}</button>'
+    cards_html += f'<div class="{cls}">{option}</div>'
 cards_html += '</div>'
 st.markdown(cards_html, unsafe_allow_html=True)
+
+# Invisible st.buttons in columns — same layout, captures actual clicks
+col1, col2 = st.columns(2)
+cols = [col1, col2, col1, col2]
+
+st.markdown("""<style>
+/* Make option st.buttons invisible — they sit below the HTML cards for click capture */
+div[data-testid="stHorizontalBlock"]:has(div[data-testid="column"]) 
+div[data-testid="stButton"] > button:not([kind="primary"]):not([kind="secondary"]) {
+    position: absolute !important;
+    opacity: 0 !important;
+    width: 100% !important;
+    height: 60px !important;
+    min-height: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    z-index: 1 !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+</style>""", unsafe_allow_html=True)
+
+for i, option in enumerate(options):
+    with cols[i]:
+        if st.button(option, key=f"opt_{i}", use_container_width=True):
+            if not checked:
+                st.session_state.selected_answer = option
+                st.rerun()
 
 # ── Check / Next ────────────────────────────────────────────────────────────────
 check_col, next_col = st.columns(2)
@@ -298,11 +298,9 @@ if next_clicked:
 
 if st.session_state.answer_checked:
     if st.session_state.selected_answer == correct_answer:
-        st.success("✅ Correct! Nice work.")
+        st.success("✅ Correct! Well done, keep it up!")
     else:
-        st.error(f"❌ Not quite. The correct answer is: {correct_answer}")
-
-st.markdown("</div>", unsafe_allow_html=True)
+        st.error(f"❌ Not quite. The correct answer is: **{correct_answer}**")
 
 # ── Progress ────────────────────────────────────────────────────────────────────
 total_answered = st.session_state.correct + st.session_state.wrong
