@@ -312,31 +312,6 @@ st.markdown("""<style>
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""<style>
-/* Ensure neutral buttons (answer options) use the teal style everywhere */
-div[data-testid="stButton"] > button:not([kind]) {
-    border-radius: 12px !important;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 1.4rem !important;
-    font-weight: 500 !important;
-    border: 1px solid rgba(248,181,94,0.9) !important;
-    background: linear-gradient(135deg,#9a3412,#f97316) !important;
-    color: #fff7ed !important;
-    width: 100% !important;
-    min-height: 72px !important;
-    white-space: normal !important;
-    line-height: 1.3 !important;
-    transition: all 0.18s ease-out !important;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.55) !important;
-    text-align: center !important;
-}
-div[data-testid="stButton"] > button:not([kind]):hover {
-    border-color: #fdba74 !important;
-    box-shadow: 0 14px 30px rgba(248,181,94,0.5) !important;
-    transform: scale(1.03) !important;
-}
-</style>""", unsafe_allow_html=True)
-
-st.markdown("""<style>
 div[data-testid="stButton"] > button[kind="primary"] {
     border-radius: 999px !important;
     padding: 0.55rem 1.4rem !important;
@@ -453,6 +428,35 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
         font-size: 0.95rem;
         padding: 0.35rem 0.85rem;
     }
+}
+</style>""", unsafe_allow_html=True)
+
+st.markdown("""<style>
+/* Force answer option cards to use orange theme (overrides primary/secondary button colors) */
+.option-btn button,
+.option-btn-selected button,
+.option-btn-correct button,
+.option-btn-wrong button {
+    border-radius: 12px !important;
+    padding: 0.75rem 0.5rem !important;
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
+    border: 1px solid rgba(248,181,94,0.9) !important;
+    background: linear-gradient(135deg,#9a3412,#f97316) !important;
+    color: #fff7ed !important;
+    width: 100% !important;
+    min-height: 72px !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.55) !important;
+    text-align: center !important;
+}
+.option-btn-selected button {
+    font-weight: 600 !important;
+    border: 2px solid #fed7aa !important;
+    background: linear-gradient(135deg,#ea580c,#fdba74) !important;
+    color: #0b0b0b !important;
+    box-shadow: 0 12px 28px rgba(248,181,94,0.6) !important;
 }
 </style>""", unsafe_allow_html=True)
 
