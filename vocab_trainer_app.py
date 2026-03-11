@@ -52,11 +52,19 @@ if "answer_checked" not in st.session_state: st.session_state.answer_checked = F
 if "current_word" not in st.session_state or "options" not in st.session_state or "correct_answer" not in st.session_state:
     setup_new_question()
 
+# Handle click from query params
+params = st.query_params
+if "pick" in params and not st.session_state.answer_checked:
+    picked = params["pick"]
+    if picked in st.session_state.options:
+        st.session_state.selected_answer = picked
+    st.query_params.clear()
+    st.rerun()
+
 word = st.session_state.current_word
 correct_answer = st.session_state.correct_answer
 options = st.session_state.options
 
-# ── Styles ─────────────────────────────────────────────────────────────────────
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 *, *::before, *::after { box-sizing: border-box; -webkit-text-size-adjust: 100%; }
@@ -122,42 +130,36 @@ section[data-testid="stMain"] > div:first-child { padding-top:0.5rem !important;
 .meta-highlight { font-weight:500; color:var(--accent); }
 .answer-label { font-size:1.5rem; color:#e1e4ec; margin-bottom:0.75rem; font-weight:600; }
 
-/* ── Option card buttons: scoped by anchor span ── */
-.opt-anchor + div button,
-.opt-anchor + div button:focus,
-.opt-anchor + div button:focus-visible {
-    border-radius: 12px !important;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 1.4rem !important;
-    font-weight: 500 !important;
-    width: 100% !important;
-    min-height: 72px !important;
-    white-space: normal !important;
-    line-height: 1.3 !important;
-    text-align: center !important;
-    transition: all 0.18s ease-out !important;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.55) !important;
-    /* DEFAULT: teal card */
-    background: #1A3A3A !important;
-    color: #cde8e8 !important;
-    border: 1px solid rgba(42,110,110,0.9) !important;
+/* Option cards */
+.opt-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.65rem; margin-bottom:1.6rem; }
+.opt-card {
+    background: #1A3A3A;
+    color: #cde8e8;
+    border: 1px solid rgba(42,110,110,0.9);
+    border-radius: 12px;
+    padding: 0.5rem 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 100%;
+    min-height: 58px;
+    white-space: normal;
+    line-height: 1.3;
+    cursor: pointer;
+    font-family: Inter, system-ui, sans-serif;
+    transition: all 0.18s ease-out;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.opt-anchor + div button:hover {
-    background: #1f4545 !important;
-    border-color: #3d9e9e !important;
-    transform: scale(1.02) !important;
-}
-/* selected */
-.opt-selected + div button,
-.opt-selected + div button:focus { background: #1A3A3A !important; color: #ffffff !important; border: 2px solid #5ecece !important; box-shadow: 0 12px 28px rgba(94,206,206,0.35) !important; }
-/* correct */
-.opt-correct + div button,
-.opt-correct + div button:focus { background: #11241c !important; color: #3ddc97 !important; border: 2px solid #3ddc97 !important; box-shadow: 0 12px 26px rgba(61,220,151,0.35) !important; }
-/* wrong */
-.opt-wrong + div button,
-.opt-wrong + div button:focus { background: #261119 !important; color: #ff6b6b !important; border: 2px solid #ff6b6b !important; box-shadow: 0 12px 26px rgba(255,107,107,0.3) !important; }
+.opt-card:hover { background: #1f4545; border-color: #3d9e9e; box-shadow: 0 14px 30px rgba(42,110,110,0.45); transform: scale(1.02); }
+.opt-card.selected { background: #1A3A3A; color: #ffffff; border: 2px solid #5ecece; box-shadow: 0 12px 28px rgba(94,206,206,0.35); }
+.opt-card.correct  { background: #11241c; color: #3ddc97; border: 2px solid #3ddc97; box-shadow: 0 12px 26px rgba(61,220,151,0.35); cursor: default; }
+.opt-card.wrong    { background: #261119; color: #ff6b6b; border: 2px solid #ff6b6b; box-shadow: 0 12px 26px rgba(255,107,107,0.3); cursor: default; }
+.opt-card.neutral  { cursor: default; opacity: 0.7; }
 
-/* ── Check / Next buttons ── */
+/* Check / Next */
 div[data-testid="stButton"] > button[kind="primary"],
 div[data-testid="stButton"] > button[kind="secondary"] {
     border-radius: 999px !important; padding: 0.55rem 1.4rem !important;
@@ -172,7 +174,6 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
     filter: brightness(1.06) !important; transform: translateY(-1px) !important;
     box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
 }
-
 .stAlert { border-radius:12px; padding:0.7rem 0.9rem; border:1px solid transparent; box-shadow:0 10px 24px rgba(0,0,0,0.65); }
 .stAlert-success { background-color:#11241c !important; border-color:rgba(61,220,151,0.6) !important; }
 .stAlert-success * { color:#c9f6e3 !important; }
@@ -201,12 +202,17 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 @media (max-width:640px) {
     div[data-testid="stMainBlockContainer"] { padding-top:2rem !important; }
     section[data-testid="stMain"] > div:first-child { padding-top:2rem !important; }
-    .app-title { font-size:1.9rem; } .german-word { font-size:2.4rem; }
-    .meta-info { font-size:1.15rem; } .answer-label { font-size:1.15rem; }
-    .opt-anchor + div button, .opt-selected + div button,
-    .opt-correct + div button, .opt-wrong + div button {
-        font-size:1.2rem !important; min-height:68px !important; padding:0.45rem 0.35rem !important;
-    }
+    .app-title { font-size:2.1rem; }
+    .german-word { font-size:2.8rem; }
+    .meta-info { font-size:1.35rem; }
+    .answer-label { font-size:1.4rem; }
+    .opt-card { font-size:1.35rem; min-height:72px; padding:0.65rem 0.75rem; }
+    .progress-title { font-size:1.3rem; }
+    .progress-subtitle { font-size:1.1rem; }
+    .stat-pill { font-size:1.1rem; }
+    .tip-box { font-size:1.1rem; }
+    div[data-testid="stButton"] > button[kind="primary"],
+    div[data-testid="stButton"] > button[kind="secondary"] { font-size:1.2rem !important; }
     header[data-testid="stHeader"]::before, div[data-testid="stHeader"]::before { left:10px; top:4px; width:40px; height:40px; font-size:1rem; }
     header[data-testid="stHeader"]::after, div[data-testid="stHeader"]::after { left:58px; top:8px; font-size:0.95rem; padding:0.35rem 0.85rem; }
 }
@@ -236,30 +242,30 @@ with col_left:
 
 st.markdown("<div class='answer-label'>Select the correct English meaning:</div>", unsafe_allow_html=True)
 
-# ── Option cards ────────────────────────────────────────────────────────────────
+# ── Option cards: pure HTML, clicks handled via URL query params ────────────────
 selected = st.session_state.selected_answer
 checked = st.session_state.answer_checked
 
-def get_anchor_class(option):
+def get_card_class(option):
     if checked:
-        if option == correct_answer: return "opt-correct"
-        if option == selected:       return "opt-wrong"
-        return "opt-anchor"
+        if option == correct_answer: return "opt-card correct"
+        if option == selected:       return "opt-card wrong"
+        return "opt-card neutral"
     else:
-        if option == selected: return "opt-selected"
-        return "opt-anchor"
+        if option == selected: return "opt-card selected"
+        return "opt-card"
 
-col1, col2 = st.columns(2)
-cols = [col1, col2, col1, col2]
-
-for i, option in enumerate(options):
-    anchor_cls = get_anchor_class(option)
-    with cols[i]:
-        st.markdown(f'<span class="{anchor_cls}"></span>', unsafe_allow_html=True)
-        clicked = st.button(option, key=f"opt_{i}", use_container_width=True)
-        if clicked and not checked:
-            st.session_state.selected_answer = option
-            st.rerun()
+cards_html = '<div class="opt-grid">'
+for option in options:
+    cls = get_card_class(option)
+    # clicking sets ?pick=<option> in the URL, Streamlit re-runs and we read it above
+    if not checked:
+        onclick = f"onclick=\"window.location.search='?pick='+encodeURIComponent('{option}')\""
+    else:
+        onclick = ""
+    cards_html += f'<button class="{cls}" {onclick}>{option}</button>'
+cards_html += '</div>'
+st.markdown(cards_html, unsafe_allow_html=True)
 
 # ── Check / Next ────────────────────────────────────────────────────────────────
 check_col, next_col = st.columns(2)
