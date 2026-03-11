@@ -179,18 +179,18 @@ div[data-testid="stAppViewContainer"] em {
 .main { background-color: transparent; }
 div.block-container {
     max-width: 100% !important;
-    padding-top: 3rem !important;
-    padding-bottom: 3rem !important;
-    padding-left: 3rem !important;
-    padding-right: 3rem !important;
+    padding-top: 1.2rem !important;
+    padding-bottom: 1.8rem !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
 }
-div[data-testid="stMainBlockContainer"] { padding-top: 2rem !important; }
-section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; }
+div[data-testid="stMainBlockContainer"] { padding-top: 0.5rem !important; }
+section[data-testid="stMain"] > div:first-child { padding-top: 0.5rem !important; }
 
 .app-wrapper {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 0.5rem 1rem 3rem;
+    padding: 0.5rem 1rem 2.5rem;
 }
 
 @media (min-width: 768px) {
@@ -218,23 +218,24 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
 
 .app-title { font-size: 2.4rem; font-weight: 700; letter-spacing: 0.03em; color: #f5f7fa; margin: 0; line-height: 1.1; }
 .vocab-layout {
-    min-height: calc(100vh - 96px);
+    min-height: calc(100vh - 120px);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
+    padding-top: 0.75rem;
 }
 .vocab-card {
     background: linear-gradient(145deg, #0f172a, #020617);
-    padding: 2.5rem 2.75rem;
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.75);
+    padding: 1.9rem 2.1rem;
+    border-radius: 20px;
+    box-shadow: 0 16px 46px rgba(0,0,0,0.7);
     width: 100%;
-    max-width: 960px;
+    max-width: 780px;
     text-align: center;
     border: 1px solid rgba(79,140,255,0.45);
 }
 .german-word {
-    font-size: 3.6rem;
+    font-size: 3.0rem;
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 0.75rem;
