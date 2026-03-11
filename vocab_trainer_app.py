@@ -130,8 +130,8 @@ header[data-testid="stHeader"]::before,
 div[data-testid="stHeader"]::before {
     content: "HN";
     position: absolute;
-    left: 14px; top: 8px;
-    width: 34px; height: 34px;
+    left: 12px; top: 6px;
+    width: 40px; height: 40px;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
@@ -139,7 +139,7 @@ div[data-testid="stHeader"]::before {
     background: linear-gradient(135deg, rgba(79,140,255,0.95), rgba(61,220,151,0.75));
     color: #0b0d12;
     font-weight: 800;
-    font-size: 0.9rem;
+    font-size: 1rem;
     box-shadow: 0 10px 24px rgba(0,0,0,0.35);
     pointer-events: none;
 }
@@ -148,14 +148,14 @@ header[data-testid="stHeader"]::after,
 div[data-testid="stHeader"]::after {
     content: "Haidar Neda";
     position: absolute;
-    left: 60px; top: 11px;
-    padding: 0.3rem 0.75rem;
+    left: 60px; top: 10px;
+    padding: 0.35rem 0.85rem;
     border-radius: 999px;
     background: rgba(26,29,36,0.72);
     border: 1px solid rgba(79,140,255,0.26);
     color: var(--text);
     font-weight: 600;
-    font-size: 0.86rem;
+    font-size: 0.92rem;
     box-shadow: 0 10px 24px rgba(0,0,0,0.28);
     pointer-events: none;
 }
@@ -244,9 +244,9 @@ st.markdown("""<style>
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 500 !important;
-    border: 1px solid rgba(34,197,154,0.6) !important;
-    background: linear-gradient(135deg,#064e3b,#047857) !important;
-    color: #e5fdf6 !important;
+    border: 1px solid rgba(248,181,94,0.9) !important;
+    background: linear-gradient(135deg,#9a3412,#f97316) !important;
+    color: #fff7ed !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
@@ -257,8 +257,8 @@ st.markdown("""<style>
 }
 
 .option-btn button:hover {
-    border-color: #22c55e !important;
-    box-shadow: 0 14px 30px rgba(34,197,94,0.45) !important;
+    border-color: #fdba74 !important;
+    box-shadow: 0 14px 30px rgba(248,181,94,0.5) !important;
     transform: scale(1.03) !important;
 }
 
@@ -267,9 +267,9 @@ st.markdown("""<style>
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 600 !important;
-    border: 2px solid #22c55e !important;
-    background: linear-gradient(135deg,#16a34a,#22c55e) !important;
-    color: #ecfdf3 !important;
+    border: 2px solid #fed7aa !important;
+    background: linear-gradient(135deg,#ea580c,#fdba74) !important;
+    color: #0b0b0b !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
@@ -318,9 +318,9 @@ div[data-testid="stButton"] > button:not([kind]) {
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 500 !important;
-    border: 1px solid rgba(34,197,154,0.6) !important;
-    background: linear-gradient(135deg,#064e3b,#047857) !important;
-    color: #e5fdf6 !important;
+    border: 1px solid rgba(248,181,94,0.9) !important;
+    background: linear-gradient(135deg,#9a3412,#f97316) !important;
+    color: #fff7ed !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
@@ -330,8 +330,8 @@ div[data-testid="stButton"] > button:not([kind]) {
     text-align: center !important;
 }
 div[data-testid="stButton"] > button:not([kind]):hover {
-    border-color: #22c55e !important;
-    box-shadow: 0 14px 30px rgba(34,197,94,0.45) !important;
+    border-color: #fdba74 !important;
+    box-shadow: 0 14px 30px rgba(248,181,94,0.5) !important;
     transform: scale(1.03) !important;
 }
 </style>""", unsafe_allow_html=True)
@@ -440,18 +440,18 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
     }
     header[data-testid="stHeader"]::before,
     div[data-testid="stHeader"]::before {
-        left: 12px;
-        top: 6px;
-        width: 32px;
-        height: 32px;
-        font-size: 0.86rem;
+        left: 10px;
+        top: 4px;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
     header[data-testid="stHeader"]::after,
     div[data-testid="stHeader"]::after {
-        left: 54px;
-        top: 9px;
-        font-size: 0.86rem;
-        padding: 0.3rem 0.7rem;
+        left: 58px;
+        top: 8px;
+        font-size: 0.95rem;
+        padding: 0.35rem 0.85rem;
     }
 }
 </style>""", unsafe_allow_html=True)
