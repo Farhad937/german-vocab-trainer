@@ -254,18 +254,22 @@ for i, option in enumerate(options):
             st.session_state.selected_answer = option
             st.rerun()
 
-# Hide the invisible st.buttons visually but keep them clickable
+# Hide the invisible st.buttons — keep them in DOM for click capture but fully invisible
 st.markdown("""<style>
-div[data-testid="column"] div[data-testid="stButton"] > button:not([kind]) {
+div[data-testid="column"] div[data-testid="stButton"] > button:not([kind="primary"]):not([kind="secondary"]) {
     opacity: 0 !important;
     position: relative !important;
-    margin-top: -78px !important;
-    height: 72px !important;
-    min-height: 72px !important;
+    margin-top: -80px !important;
+    height: 74px !important;
+    min-height: 74px !important;
+    max-height: 74px !important;
     border: none !important;
     background: transparent !important;
     box-shadow: none !important;
-    z-index: 10 !important;
+    z-index: 99 !important;
+    width: 100% !important;
+    display: block !important;
+    padding: 0 !important;
 }
 </style>""", unsafe_allow_html=True)
 
