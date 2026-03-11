@@ -217,13 +217,6 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0.5rem !important
 }
 
 .app-title { font-size: 2.4rem; font-weight: 700; letter-spacing: 0.03em; color: #f5f7fa; margin: 0; line-height: 1.1; }
-.vocab-layout {
-    min-height: calc(100vh - 120px);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 0.75rem;
-}
 .vocab-card {
     background: linear-gradient(145deg, #0f172a, #020617);
     padding: 1.9rem 2.1rem;
@@ -434,7 +427,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.markdown('<div class="vocab-layout"><div class="vocab-card">', unsafe_allow_html=True)
+st.markdown('<div class="vocab-card">', unsafe_allow_html=True)
 
 if st.session_state.get("round_complete"):
     st.success(f"🎉 You've reviewed all {len(vocab)} words! Starting a new round.")
@@ -515,7 +508,7 @@ if st.session_state.answer_checked:
     else:
         st.error(f"❌ Not quite. The correct answer is: {correct_answer}")
 
-st.markdown("</div></div>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 total_answered = st.session_state.correct + st.session_state.wrong
 accuracy = (st.session_state.correct / total_answered) * 100 if total_answered else 0.0
