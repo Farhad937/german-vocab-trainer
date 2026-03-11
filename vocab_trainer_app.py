@@ -312,6 +312,31 @@ st.markdown("""<style>
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""<style>
+/* Ensure neutral buttons (answer options) use the teal style everywhere */
+div[data-testid="stButton"] > button:not([kind]) {
+    border-radius: 12px !important;
+    padding: 0.75rem 0.5rem !important;
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
+    border: 1px solid rgba(34,197,154,0.6) !important;
+    background: linear-gradient(135deg,#064e3b,#047857) !important;
+    color: #e5fdf6 !important;
+    width: 100% !important;
+    min-height: 72px !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+    transition: all 0.18s ease-out !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.55) !important;
+    text-align: center !important;
+}
+div[data-testid="stButton"] > button:not([kind]):hover {
+    border-color: #22c55e !important;
+    box-shadow: 0 14px 30px rgba(34,197,94,0.45) !important;
+    transform: scale(1.03) !important;
+}
+</style>""", unsafe_allow_html=True)
+
+st.markdown("""<style>
 div[data-testid="stButton"] > button[kind="primary"] {
     border-radius: 999px !important;
     padding: 0.55rem 1.4rem !important;
@@ -409,14 +434,25 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
     .answer-label { font-size: 1.15rem; margin-bottom: 0.25rem; }
     .option-btn button, .option-btn-selected button,
     .option-btn-correct button, .option-btn-wrong button {
-        font-size: 1.1rem !important;
+        font-size: 1.2rem !important;
         min-height: 68px !important;
-        padding: 0.35rem 0.3rem !important;
+        padding: 0.45rem 0.35rem !important;
     }
     header[data-testid="stHeader"]::before,
-    div[data-testid="stHeader"]::before { left: 12px; width: 28px; height: 28px; font-size: 0.74rem; }
+    div[data-testid="stHeader"]::before {
+        left: 12px;
+        top: 6px;
+        width: 32px;
+        height: 32px;
+        font-size: 0.86rem;
+    }
     header[data-testid="stHeader"]::after,
-    div[data-testid="stHeader"]::after { left: 46px; font-size: 0.8rem; padding: 0.26rem 0.55rem; }
+    div[data-testid="stHeader"]::after {
+        left: 54px;
+        top: 9px;
+        font-size: 0.86rem;
+        padding: 0.3rem 0.7rem;
+    }
 }
 </style>""", unsafe_allow_html=True)
 
