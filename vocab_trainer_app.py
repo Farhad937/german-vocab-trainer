@@ -202,17 +202,17 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 @media (max-width:640px) {
     div[data-testid="stMainBlockContainer"] { padding-top:2rem !important; }
     section[data-testid="stMain"] > div:first-child { padding-top:2rem !important; }
-    .app-title { font-size:2.1rem; }
-    .german-word { font-size:2.8rem; }
-    .meta-info { font-size:1.35rem; }
-    .answer-label { font-size:1.4rem; }
-    .opt-card { font-size:1.35rem; min-height:72px; padding:0.65rem 0.75rem; }
-    .progress-title { font-size:1.3rem; }
-    .progress-subtitle { font-size:1.1rem; }
-    .stat-pill { font-size:1.1rem; }
-    .tip-box { font-size:1.1rem; }
+    .app-title { font-size:2.4rem; }
+    .german-word { font-size:3.2rem; }
+    .meta-info { font-size:1.6rem; }
+    .answer-label { font-size:1.7rem; }
+    .opt-card { font-size:1.55rem; min-height:80px; padding:0.75rem; }
+    .progress-title { font-size:1.55rem; }
+    .progress-subtitle { font-size:1.3rem; }
+    .stat-pill { font-size:1.3rem; }
+    .tip-box { font-size:1.3rem; }
     div[data-testid="stButton"] > button[kind="primary"],
-    div[data-testid="stButton"] > button[kind="secondary"] { font-size:1.2rem !important; }
+    div[data-testid="stButton"] > button[kind="secondary"] { font-size:1.45rem !important; }
     header[data-testid="stHeader"]::before, div[data-testid="stHeader"]::before { left:10px; top:4px; width:40px; height:40px; font-size:1rem; }
     header[data-testid="stHeader"]::after, div[data-testid="stHeader"]::after { left:58px; top:8px; font-size:0.95rem; padding:0.35rem 0.85rem; }
 }
