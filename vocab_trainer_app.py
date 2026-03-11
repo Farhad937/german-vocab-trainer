@@ -2,6 +2,11 @@ import streamlit as st
 import csv
 import random
 
+st.set_page_config(
+    page_title="Deutsch Trainer",
+    layout="wide",
+)
+
 vocab_file = "vocab.csv"
 vocab = []
 with open(vocab_file, encoding="utf-8-sig") as f:
@@ -172,10 +177,21 @@ div[data-testid="stAppViewContainer"] em {
 }
 
 .main { background-color: transparent; }
+div.block-container {
+    max-width: 100% !important;
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+}
 div[data-testid="stMainBlockContainer"] { padding-top: 2rem !important; }
 section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; }
 
-.app-wrapper { max-width: 700px; margin: 0 auto; padding: 0.5rem 1rem 3rem; }
+.app-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem 1rem 3rem;
+}
 
 @media (min-width: 768px) {
     .app-wrapper { padding: 0.6rem 0 3.6rem; }
@@ -201,23 +217,44 @@ section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; 
 }
 
 .app-title { font-size: 2.4rem; font-weight: 700; letter-spacing: 0.03em; color: #f5f7fa; margin: 0; line-height: 1.1; }
-.german-word { font-size: 3rem; font-weight: 700; color: #ffffff; margin-bottom: 0.4rem; }
+.vocab-layout {
+    min-height: calc(100vh - 96px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.vocab-card {
+    background: linear-gradient(145deg, #0f172a, #020617);
+    padding: 2.5rem 2.75rem;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.75);
+    width: 100%;
+    max-width: 960px;
+    text-align: center;
+    border: 1px solid rgba(79,140,255,0.45);
+}
+.german-word {
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
 .meta-info { font-size: 1.4rem; color: var(--text-muted); margin-bottom: 0.15rem; line-height: 1.4; }
 .meta-highlight { font-weight: 500; color: var(--accent); }
-.answer-label { font-size: 1.4rem; color: #e1e4ec; margin-bottom: 0.45rem; font-weight: 500; }
+.answer-label { font-size: 1.5rem; color: #e1e4ec; margin-bottom: 0.75rem; font-weight: 600; }
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""<style>
 .option-btn button {
     border-radius: 12px !important;
-    padding: 0.55rem 0.5rem !important;
-    font-size: 1.2rem !important;
-    font-weight: 400 !important;
+    padding: 0.75rem 0.5rem !important;
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
     border: 1px solid rgba(81,92,123,0.9) !important;
-    background: #1A3A3A !important;
+    background: linear-gradient(90deg,#3b82f6,#60a5fa) !important;
     color: #d5d8e4 !important;
     width: 100% !important;
-    min-height: 64px !important;
+    min-height: 72px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
     transition: all 0.18s ease-out !important;
@@ -227,21 +264,20 @@ st.markdown("""<style>
 
 .option-btn button:hover {
     border-color: #4f8cff !important;
-    background: #1f4444 !important;
-    box-shadow: 0 10px 22px rgba(79,140,255,0.32) !important;
-    transform: translateY(-1px) !important;
+    box-shadow: 0 14px 28px rgba(79,140,255,0.45) !important;
+    transform: scale(1.03) !important;
 }
 
 .option-btn-selected button {
     border-radius: 12px !important;
-    padding: 0.55rem 0.5rem !important;
-    font-size: 1.2rem !important;
+    padding: 0.75rem 0.5rem !important;
+    font-size: 1.4rem !important;
     font-weight: 600 !important;
     border: 2px solid #4f8cff !important;
-    background: #1A3A3A !important;
+    background: linear-gradient(90deg,#3b82f6,#60a5fa) !important;
     color: #ffffff !important;
     width: 100% !important;
-    min-height: 64px !important;
+    min-height: 72px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
     box-shadow: 0 12px 26px rgba(79,140,255,0.4) !important;
@@ -250,14 +286,14 @@ st.markdown("""<style>
 
 .option-btn-correct button {
     border-radius: 12px !important;
-    padding: 0.55rem 0.5rem !important;
-    font-size: 1.2rem !important;
+    padding: 0.75rem 0.5rem !important;
+    font-size: 1.4rem !important;
     font-weight: 600 !important;
     border: 2px solid #3ddc97 !important;
     background: #11241c !important;
     color: #3ddc97 !important;
     width: 100% !important;
-    min-height: 64px !important;
+    min-height: 72px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
     box-shadow: 0 12px 26px rgba(61,220,151,0.35) !important;
@@ -266,14 +302,14 @@ st.markdown("""<style>
 
 .option-btn-wrong button {
     border-radius: 12px !important;
-    padding: 0.55rem 0.5rem !important;
-    font-size: 1.2rem !important;
+    padding: 0.75rem 0.5rem !important;
+    font-size: 1.4rem !important;
     font-weight: 600 !important;
     border: 2px solid #ff6b6b !important;
     background: #261119 !important;
     color: #ff6b6b !important;
     width: 100% !important;
-    min-height: 64px !important;
+    min-height: 72px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
     box-shadow: 0 12px 26px rgba(255,107,107,0.3) !important;
@@ -397,6 +433,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+st.markdown('<div class="vocab-layout"><div class="vocab-card">', unsafe_allow_html=True)
+
 if st.session_state.get("round_complete"):
     st.success(f"🎉 You've reviewed all {len(vocab)} words! Starting a new round.")
 
@@ -476,6 +514,8 @@ if st.session_state.answer_checked:
     else:
         st.error(f"❌ Not quite. The correct answer is: {correct_answer}")
 
+st.markdown("</div></div>", unsafe_allow_html=True)
+
 total_answered = st.session_state.correct + st.session_state.wrong
 accuracy = (st.session_state.correct / total_answered) * 100 if total_answered else 0.0
 words_left = len(st.session_state.get("word_queue", []))
@@ -507,5 +547,4 @@ st.markdown(
     '<div class="tip-box">You can extend your deck at any time by editing <code>vocab.csv</code>. New words will appear automatically in future questions.</div>',
     unsafe_allow_html=True,
 )
-st.markdown("</div>", unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
