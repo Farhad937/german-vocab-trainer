@@ -56,42 +56,16 @@ word = st.session_state.current_word
 correct_answer = st.session_state.correct_answer
 options = st.session_state.options
 
-st.markdown("""
-<script>
-(function() {
-    var existing = document.querySelector('meta[name="viewport"]');
-    if (existing) existing.parentNode.removeChild(existing);
-    var meta = document.createElement('meta');
-    meta.name = 'viewport';
-    meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0';
-    document.head.appendChild(meta);
-})();
-</script>
-""", unsafe_allow_html=True)
-
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 *, *::before, *::after { box-sizing: border-box; -webkit-text-size-adjust: 100%; }
-
-:root {
-    --app-bg: #0f1117; --app-bg-2: #05060a;
-    --accent: #4f8cff; --success: #3ddc97; --error: #ff6b6b;
-    --text: #f5f7fa; --text-muted: #aab0bb;
-}
-
-html, body, [class*="css"] {
-    font-family: 'Inter', system-ui, sans-serif;
-    color: var(--text);
-}
-
+:root { --app-bg: #0f1117; --app-bg-2: #05060a; --accent: #4f8cff; --text: #f5f7fa; --text-muted: #aab0bb; }
+html, body, [class*="css"] { font-family: 'Inter', system-ui, sans-serif; color: var(--text); }
 div[data-testid="stAppViewContainer"] {
     background: radial-gradient(circle at top left, #181b24 0, var(--app-bg) 45%, var(--app-bg-2) 100%);
 }
-
 header[data-testid="stHeader"], div[data-testid="stHeader"] {
-    background: rgba(15,17,23,0.55);
-    backdrop-filter: blur(10px);
+    background: rgba(15,17,23,0.55); backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(81,92,123,0.35);
     position: fixed; top:0; left:0; right:0; height:52px; z-index:999;
 }
@@ -100,28 +74,24 @@ header[data-testid="stHeader"]::before, div[data-testid="stHeader"]::before {
     width:40px; height:40px; border-radius:999px;
     display:inline-flex; align-items:center; justify-content:center;
     background:linear-gradient(135deg,rgba(79,140,255,0.95),rgba(61,220,151,0.75));
-    color:#0b0d12; font-weight:800; font-size:1rem;
-    box-shadow:0 10px 24px rgba(0,0,0,0.35); pointer-events:none;
+    color:#0b0d12; font-weight:800; font-size:1rem; pointer-events:none;
 }
 header[data-testid="stHeader"]::after, div[data-testid="stHeader"]::after {
     content:"Haidar Neda"; position:absolute; left:60px; top:10px;
     padding:0.35rem 0.85rem; border-radius:999px;
     background:rgba(26,29,36,0.72); border:1px solid rgba(79,140,255,0.26);
-    color:var(--text); font-weight:600; font-size:0.92rem;
-    box-shadow:0 10px 24px rgba(0,0,0,0.28); pointer-events:none;
+    color:var(--text); font-weight:600; font-size:0.92rem; pointer-events:none;
 }
 header[data-testid="stHeader"] > div:last-child,
 div[data-testid="stHeader"] > div:last-child,
 header[data-testid="stHeader"] [data-testid*="fork"],
 div[data-testid="stHeader"] [data-testid*="fork"] { display:none !important; }
-
 div[data-testid="stAppViewContainer"] p,
 div[data-testid="stAppViewContainer"] span,
 div[data-testid="stAppViewContainer"] label,
 div[data-testid="stAppViewContainer"] li,
 div[data-testid="stAppViewContainer"] strong,
 div[data-testid="stAppViewContainer"] em { color: var(--text); }
-
 .main { background-color: transparent; }
 div.block-container {
     max-width:100% !important;
@@ -130,154 +100,68 @@ div.block-container {
 }
 div[data-testid="stMainBlockContainer"] { padding-top:0.5rem !important; }
 section[data-testid="stMain"] > div:first-child { padding-top:0.5rem !important; }
-
 .app-wrapper { max-width:1100px; margin:0 auto; padding:0.5rem 1rem 2.5rem; }
 @media (min-width:768px) { .app-wrapper { padding:0.6rem 0 3.6rem; } }
-
 .app-header-card {
     background:#12141d; border-radius:14px; padding:0.65rem 1.4rem;
-    box-shadow:0 8px 24px rgba(0,0,0,0.45);
-    border:1px solid rgba(79,140,255,0.32);
+    box-shadow:0 8px 24px rgba(0,0,0,0.45); border:1px solid rgba(79,140,255,0.32);
     margin-bottom:0.85rem; position:relative; overflow:hidden;
 }
 .app-header-card::after {
-    content:""; position:absolute; left:0; bottom:0;
-    width:38%; height:2px;
+    content:""; position:absolute; left:0; bottom:0; width:38%; height:2px;
     background:linear-gradient(90deg,#4f8cff,transparent);
 }
 .app-title { font-size:2.4rem; font-weight:700; letter-spacing:0.03em; color:#f5f7fa; margin:0; line-height:1.1; }
-
 .vocab-card {
-    background:linear-gradient(145deg,#0f172a,#020617);
-    padding:1.9rem 2.1rem; border-radius:20px;
-    box-shadow:0 16px 46px rgba(0,0,0,0.7);
-    width:100%; max-width:780px; text-align:center;
+    background:linear-gradient(145deg,#0f172a,#020617); padding:1.9rem 2.1rem; border-radius:20px;
+    box-shadow:0 16px 46px rgba(0,0,0,0.7); width:100%; max-width:780px; text-align:center;
     border:1px solid rgba(79,140,255,0.45);
 }
 .german-word { font-size:3.0rem; font-weight:700; color:#ffffff; margin-bottom:0.75rem; }
 .meta-info { font-size:1.4rem; color:var(--text-muted); margin-bottom:0.15rem; line-height:1.4; }
 .meta-highlight { font-weight:500; color:var(--accent); }
 .answer-label { font-size:1.5rem; color:#e1e4ec; margin-bottom:0.75rem; font-weight:600; }
-</style>""", unsafe_allow_html=True)
 
-st.markdown("""<style>
-/* BASE unselected card */
-div.option-btn > div[data-testid="stButton"] > button,
-div.option-btn > div[data-testid="stButton"] > button:focus,
-div.option-btn > div[data-testid="stButton"] > button:active {
-    border-radius: 12px !important;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 1.4rem !important;
-    font-weight: 500 !important;
-    background: #1A3A3A !important;
-    color: #cde8e8 !important;
-    border: 1px solid rgba(42,110,110,0.9) !important;
-    width: 100% !important;
-    min-height: 72px !important;
-    white-space: normal !important;
-    line-height: 1.3 !important;
-    transition: all 0.18s ease-out !important;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.55) !important;
-    text-align: center !important;
+/* option cards — pure HTML, no Streamlit button interference */
+.opt-card {
+    background: #1A3A3A;
+    color: #cde8e8;
+    border: 1px solid rgba(42,110,110,0.9);
+    border-radius: 12px;
+    padding: 0.75rem 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    width: 100%;
+    min-height: 72px;
+    white-space: normal;
+    line-height: 1.3;
+    cursor: pointer;
+    font-family: Inter, system-ui, sans-serif;
+    transition: all 0.18s ease-out;
+    margin-bottom: 0.6rem;
+    display: block;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+    text-align: center;
 }
-div.option-btn > div[data-testid="stButton"] > button:hover {
-    background: #1f4545 !important;
-    border-color: #3d9e9e !important;
-    box-shadow: 0 14px 30px rgba(42,110,110,0.45) !important;
-    transform: scale(1.02) !important;
-}
+.opt-card:hover { background: #1f4545; border-color: #3d9e9e; box-shadow: 0 14px 30px rgba(42,110,110,0.45); transform: scale(1.02); }
+.opt-card.selected { border: 2px solid #5ecece; color: #ffffff; box-shadow: 0 12px 28px rgba(94,206,206,0.35); }
+.opt-card.correct  { background: #11241c; color: #3ddc97; border: 2px solid #3ddc97; box-shadow: 0 12px 26px rgba(61,220,151,0.35); cursor: default; }
+.opt-card.wrong    { background: #261119; color: #ff6b6b; border: 2px solid #ff6b6b; box-shadow: 0 12px 26px rgba(255,107,107,0.3); cursor: default; }
+.opt-card.neutral-after { cursor: default; }
 
-/* SELECTED card */
-div.option-btn-selected > div[data-testid="stButton"] > button,
-div.option-btn-selected > div[data-testid="stButton"] > button:focus,
-div.option-btn-selected > div[data-testid="stButton"] > button:active {
-    border-radius: 12px !important;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 1.4rem !important;
-    font-weight: 600 !important;
-    background: #1A3A3A !important;
-    color: #ffffff !important;
-    border: 2px solid #5ecece !important;
-    width: 100% !important;
-    min-height: 72px !important;
-    white-space: normal !important;
-    line-height: 1.3 !important;
-    box-shadow: 0 12px 28px rgba(94,206,206,0.35) !important;
-    text-align: center !important;
-}
-
-/* CORRECT card */
-div.option-btn-correct > div[data-testid="stButton"] > button,
-div.option-btn-correct > div[data-testid="stButton"] > button:focus,
-div.option-btn-correct > div[data-testid="stButton"] > button:active {
-    border-radius: 12px !important;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 1.4rem !important;
-    font-weight: 600 !important;
-    background: #11241c !important;
-    color: #3ddc97 !important;
-    border: 2px solid #3ddc97 !important;
-    width: 100% !important;
-    min-height: 72px !important;
-    white-space: normal !important;
-    line-height: 1.3 !important;
-    box-shadow: 0 12px 26px rgba(61,220,151,0.35) !important;
-    text-align: center !important;
-}
-
-/* WRONG card */
-div.option-btn-wrong > div[data-testid="stButton"] > button,
-div.option-btn-wrong > div[data-testid="stButton"] > button:focus,
-div.option-btn-wrong > div[data-testid="stButton"] > button:active {
-    border-radius: 12px !important;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 1.4rem !important;
-    font-weight: 600 !important;
-    background: #261119 !important;
-    color: #ff6b6b !important;
-    border: 2px solid #ff6b6b !important;
-    width: 100% !important;
-    min-height: 72px !important;
-    white-space: normal !important;
-    line-height: 1.3 !important;
-    box-shadow: 0 12px 26px rgba(255,107,107,0.3) !important;
-    text-align: center !important;
-}
-</style>""", unsafe_allow_html=True)
-
-st.markdown("""<style>
-div[data-testid="stButton"] > button[kind="primary"] {
-    border-radius: 999px !important;
-    padding: 0.55rem 1.4rem !important;
-    font-size: 1.2rem !important;
-    font-weight: 500 !important;
-    background: linear-gradient(135deg, #4f8cff, #6fa8ff) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(118,162,255,0.9) !important;
-    transition: all 0.16s ease-out !important;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
-    width: 100% !important;
-}
-div[data-testid="stButton"] > button[kind="primary"]:hover {
-    filter: brightness(1.06) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
-}
+/* Check / Next buttons */
+div[data-testid="stButton"] > button[kind="primary"],
 div[data-testid="stButton"] > button[kind="secondary"] {
-    border-radius: 999px !important;
-    padding: 0.55rem 1.4rem !important;
-    font-size: 1.2rem !important;
-    font-weight: 500 !important;
+    border-radius: 999px !important; padding: 0.55rem 1.4rem !important;
+    font-size: 1.2rem !important; font-weight: 500 !important;
     background: linear-gradient(135deg, #4f8cff, #6fa8ff) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(118,162,255,0.9) !important;
-    transition: all 0.16s ease-out !important;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
+    color: #ffffff !important; border: 1px solid rgba(118,162,255,0.9) !important;
+    transition: all 0.16s ease-out !important; box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
     width: 100% !important;
 }
+div[data-testid="stButton"] > button[kind="primary"]:hover,
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    filter: brightness(1.06) !important;
-    transform: translateY(-1px) !important;
+    filter: brightness(1.06) !important; transform: translateY(-1px) !important;
     box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
 }
 
@@ -289,17 +173,15 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 
 .progress-card {
     background:#151822; border-radius:16px; padding:1.15rem 1.5rem 1.25rem;
-    box-shadow:0 18px 40px rgba(0,0,0,0.75);
-    border:1px solid rgba(61,72,102,0.7); margin-top:1.1rem;
+    box-shadow:0 18px 40px rgba(0,0,0,0.75); border:1px solid rgba(61,72,102,0.7); margin-top:1.1rem;
 }
 .progress-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.55rem; }
 .progress-title { font-size:1.4rem; font-weight:600; color:#f5f7fa; }
 .progress-subtitle { font-size:1.15rem; color:#8f95a3; }
 .stat-row { display:flex; flex-wrap:wrap; gap:0.6rem 1rem; margin-top:0.55rem; }
 .stat-pill {
-    display:inline-flex; align-items:center; gap:0.3rem;
-    padding:0.16rem 0.7rem; border-radius:999px;
-    background:#202431; font-size:1.15rem; color:#d0d4e2;
+    display:inline-flex; align-items:center; gap:0.3rem; padding:0.16rem 0.7rem;
+    border-radius:999px; background:#202431; font-size:1.15rem; color:#d0d4e2;
     border:1px solid rgba(75,85,116,0.9);
 }
 .stat-pill--correct { background:#14291f; border-color:rgba(61,220,151,0.7); color:#a9f0cd; }
@@ -313,26 +195,15 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
 @media (max-width:640px) {
     div[data-testid="stMainBlockContainer"] { padding-top:2rem !important; }
     section[data-testid="stMain"] > div:first-child { padding-top:2rem !important; }
-    .app-title { font-size:1.9rem; }
-    .german-word { font-size:2.4rem; }
-    .meta-info { font-size:1.15rem; }
-    .answer-label { font-size:1.15rem; }
-    div.option-btn > div[data-testid="stButton"] > button,
-    div.option-btn-selected > div[data-testid="stButton"] > button,
-    div.option-btn-correct > div[data-testid="stButton"] > button,
-    div.option-btn-wrong > div[data-testid="stButton"] > button {
-        font-size:1.2rem !important; min-height:68px !important; padding:0.45rem 0.35rem !important;
-    }
-    header[data-testid="stHeader"]::before, div[data-testid="stHeader"]::before {
-        left:10px; top:4px; width:40px; height:40px; font-size:1rem;
-    }
-    header[data-testid="stHeader"]::after, div[data-testid="stHeader"]::after {
-        left:58px; top:8px; font-size:0.95rem; padding:0.35rem 0.85rem;
-    }
+    .app-title { font-size:1.9rem; } .german-word { font-size:2.4rem; }
+    .meta-info { font-size:1.15rem; } .answer-label { font-size:1.15rem; }
+    .opt-card { font-size:1.2rem !important; min-height:68px !important; padding:0.45rem 0.35rem !important; }
+    header[data-testid="stHeader"]::before, div[data-testid="stHeader"]::before { left:10px; top:4px; width:40px; height:40px; font-size:1rem; }
+    header[data-testid="stHeader"]::after, div[data-testid="stHeader"]::after { left:58px; top:8px; font-size:0.95rem; padding:0.35rem 0.85rem; }
 }
 </style>""", unsafe_allow_html=True)
 
-# ---- UI ----
+# ── UI ──────────────────────────────────────────────────────────────────────────
 st.markdown('<div class="app-wrapper">', unsafe_allow_html=True)
 st.markdown('<div class="app-header-card"><div class="app-title">Deutsch Trainer</div></div>', unsafe_allow_html=True)
 st.markdown('<div class="vocab-card">', unsafe_allow_html=True)
@@ -342,7 +213,6 @@ if st.session_state.get("round_complete"):
 
 st.markdown(f'<div class="german-word">{word["german"]}</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="qcols">', unsafe_allow_html=True)
 col_left, _ = st.columns([2.2, 1.8])
 with col_left:
     show_plural = st.checkbox("Show plural", value=True)
@@ -354,28 +224,50 @@ with col_left:
     show_example = st.checkbox("Show example", value=True)
     if show_example and word["example"]:
         st.markdown(f'<div class="meta-info">Example: {word["example"]}</div>', unsafe_allow_html=True)
-st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("<div class='answer-label'>Select the correct English meaning:</div>", unsafe_allow_html=True)
+
+# ── Option cards as pure HTML buttons ──────────────────────────────────────────
+selected = st.session_state.selected_answer
+checked = st.session_state.answer_checked
+
+def get_card_class(option):
+    if checked:
+        if option == correct_answer: return "opt-card correct"
+        if option == selected:       return "opt-card wrong"
+        return "opt-card neutral-after"
+    else:
+        if option == selected: return "opt-card selected"
+        return "opt-card"
 
 col1, col2 = st.columns(2)
 cols = [col1, col2, col1, col2]
 
 for i, option in enumerate(options):
-    selected = st.session_state.selected_answer
-    checked = st.session_state.answer_checked
-    if checked:
-        css_class = "option-btn-correct" if option == correct_answer else ("option-btn-wrong" if option == selected else "option-btn")
-    else:
-        css_class = "option-btn-selected" if option == selected else "option-btn"
-
+    css_class = get_card_class(option)
     with cols[i]:
-        st.markdown(f'<div class="{css_class}">', unsafe_allow_html=True)
-        if st.button(option, key=f"opt_{i}", use_container_width=True):
-            if not st.session_state.answer_checked:
-                st.session_state.selected_answer = option
-                st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
+        # Render the visible styled HTML button
+        st.markdown(f'<button class="{css_class}" id="optbtn_{i}">{option}</button>', unsafe_allow_html=True)
+        # Invisible st.button underneath captures the actual click
+        clicked = st.button(option, key=f"opt_{i}", use_container_width=True)
+        if clicked and not checked:
+            st.session_state.selected_answer = option
+            st.rerun()
+
+# Hide the invisible st.buttons visually but keep them clickable
+st.markdown("""<style>
+div[data-testid="column"] div[data-testid="stButton"] > button:not([kind]) {
+    opacity: 0 !important;
+    position: relative !important;
+    margin-top: -78px !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    z-index: 10 !important;
+}
+</style>""", unsafe_allow_html=True)
 
 check_col, next_col = st.columns(2)
 with check_col:
