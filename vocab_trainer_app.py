@@ -244,9 +244,9 @@ st.markdown("""<style>
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 500 !important;
-    border: 1px solid rgba(248,181,94,0.9) !important;
-    background: linear-gradient(135deg,#9a3412,#f97316) !important;
-    color: #fff7ed !important;
+    border: 1px solid rgba(42,110,110,0.9) !important;
+    background: #1A3A3A !important;
+    color: #cde8e8 !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
@@ -257,9 +257,10 @@ st.markdown("""<style>
 }
 
 .option-btn button:hover {
-    border-color: #fdba74 !important;
-    box-shadow: 0 14px 30px rgba(248,181,94,0.5) !important;
-    transform: scale(1.03) !important;
+    border-color: #3d9e9e !important;
+    background: #1f4545 !important;
+    box-shadow: 0 14px 30px rgba(42,110,110,0.45) !important;
+    transform: scale(1.02) !important;
 }
 
 .option-btn-selected button {
@@ -267,14 +268,14 @@ st.markdown("""<style>
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 600 !important;
-    border: 2px solid #fed7aa !important;
-    background: linear-gradient(135deg,#ea580c,#fdba74) !important;
-    color: #0b0b0b !important;
+    border: 2px solid #5ecece !important;
+    background: #1A3A3A !important;
+    color: #ffffff !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
     line-height: 1.3 !important;
-    box-shadow: 0 12px 28px rgba(34,197,94,0.48) !important;
+    box-shadow: 0 12px 28px rgba(94,206,206,0.35) !important;
     text-align: center !important;
 }
 
@@ -415,48 +416,16 @@ div[data-testid="stButton"] > button[kind="secondary"]:hover {
     }
     header[data-testid="stHeader"]::before,
     div[data-testid="stHeader"]::before {
-        left: 10px;
-        top: 4px;
-        width: 40px;
-        height: 40px;
+        left: 10px; top: 4px;
+        width: 40px; height: 40px;
         font-size: 1rem;
     }
     header[data-testid="stHeader"]::after,
     div[data-testid="stHeader"]::after {
-        left: 58px;
-        top: 8px;
+        left: 58px; top: 8px;
         font-size: 0.95rem;
         padding: 0.35rem 0.85rem;
     }
-}
-</style>""", unsafe_allow_html=True)
-
-st.markdown("""<style>
-/* Force answer option cards to use orange theme (overrides primary/secondary button colors) */
-.option-btn button,
-.option-btn-selected button,
-.option-btn-correct button,
-.option-btn-wrong button {
-    border-radius: 12px !important;
-    padding: 0.75rem 0.5rem !important;
-    font-size: 1.4rem !important;
-    font-weight: 500 !important;
-    border: 1px solid rgba(248,181,94,0.9) !important;
-    background: linear-gradient(135deg,#9a3412,#f97316) !important;
-    color: #fff7ed !important;
-    width: 100% !important;
-    min-height: 72px !important;
-    white-space: normal !important;
-    line-height: 1.3 !important;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.55) !important;
-    text-align: center !important;
-}
-.option-btn-selected button {
-    font-weight: 600 !important;
-    border: 2px solid #fed7aa !important;
-    background: linear-gradient(135deg,#ea580c,#fdba74) !important;
-    color: #0b0b0b !important;
-    box-shadow: 0 12px 28px rgba(248,181,94,0.6) !important;
 }
 </style>""", unsafe_allow_html=True)
 
