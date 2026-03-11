@@ -2,10 +2,7 @@ import streamlit as st
 import csv
 import random
 
-st.set_page_config(
-    page_title="Deutsch Trainer",
-    layout="wide",
-)
+st.set_page_config(page_title="Deutsch Trainer", layout="wide")
 
 vocab_file = "vocab.csv"
 vocab = []
@@ -32,7 +29,6 @@ def setup_new_question() -> None:
         st.session_state.round_complete = True
     else:
         st.session_state.round_complete = False
-
     st.session_state.current_word = st.session_state.word_queue.pop()
     word = st.session_state.current_word
     correct = word["english"]
@@ -47,206 +43,135 @@ def setup_new_question() -> None:
     st.session_state.answer_checked = False
 
 
-if "correct" not in st.session_state:
-    st.session_state.correct = 0
-if "wrong" not in st.session_state:
-    st.session_state.wrong = 0
-if "answered_current_question" not in st.session_state:
-    st.session_state.answered_current_question = False
-if "round_complete" not in st.session_state:
-    st.session_state.round_complete = False
-if "selected_answer" not in st.session_state:
-    st.session_state.selected_answer = None
-if "answer_checked" not in st.session_state:
-    st.session_state.answer_checked = False
-
-if ("current_word" not in st.session_state or "options" not in st.session_state or "correct_answer" not in st.session_state):
+if "correct" not in st.session_state: st.session_state.correct = 0
+if "wrong" not in st.session_state: st.session_state.wrong = 0
+if "answered_current_question" not in st.session_state: st.session_state.answered_current_question = False
+if "round_complete" not in st.session_state: st.session_state.round_complete = False
+if "selected_answer" not in st.session_state: st.session_state.selected_answer = None
+if "answer_checked" not in st.session_state: st.session_state.answer_checked = False
+if "current_word" not in st.session_state or "options" not in st.session_state or "correct_answer" not in st.session_state:
     setup_new_question()
 
 word = st.session_state.current_word
 correct_answer = st.session_state.correct_answer
 options = st.session_state.options
 
-st.markdown(
-    """
-    <script>
-        (function() {
-            var existing = document.querySelector('meta[name="viewport"]');
-            if (existing) { existing.parentNode.removeChild(existing); }
-            var meta = document.createElement('meta');
-            meta.name = 'viewport';
-            meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0';
-            document.head.appendChild(meta);
-        })();
-    </script>
-    """,
-    unsafe_allow_html=True,
-)
+st.markdown("""
+<script>
+(function() {
+    var existing = document.querySelector('meta[name="viewport"]');
+    if (existing) existing.parentNode.removeChild(existing);
+    var meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0';
+    document.head.appendChild(meta);
+})();
+</script>
+""", unsafe_allow_html=True)
 
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-*, *::before, *::after {
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
-    box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; -webkit-text-size-adjust: 100%; }
 
 :root {
-    --app-bg: #0f1117;
-    --app-bg-2: #05060a;
-    --card-bg: #1a1d24;
-    --card-bg-2: #222630;
-    --accent: #4f8cff;
-    --success: #3ddc97;
-    --error: #ff6b6b;
-    --text: #f5f7fa;
-    --text-muted: #aab0bb;
+    --app-bg: #0f1117; --app-bg-2: #05060a;
+    --accent: #4f8cff; --success: #3ddc97; --error: #ff6b6b;
+    --text: #f5f7fa; --text-muted: #aab0bb;
 }
 
 html, body, [class*="css"] {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     color: var(--text);
 }
 
 div[data-testid="stAppViewContainer"] {
     background: radial-gradient(circle at top left, #181b24 0, var(--app-bg) 45%, var(--app-bg-2) 100%);
-    color: var(--text);
 }
 
-header[data-testid="stHeader"],
-div[data-testid="stHeader"] {
-    background: rgba(15, 17, 23, 0.55);
+header[data-testid="stHeader"], div[data-testid="stHeader"] {
+    background: rgba(15,17,23,0.55);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(81, 92, 123, 0.35);
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 52px;
-    z-index: 999;
+    border-bottom: 1px solid rgba(81,92,123,0.35);
+    position: fixed; top:0; left:0; right:0; height:52px; z-index:999;
 }
-
-header[data-testid="stHeader"]::before,
-div[data-testid="stHeader"]::before {
-    content: "HN";
-    position: absolute;
-    left: 12px; top: 6px;
-    width: 40px; height: 40px;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, rgba(79,140,255,0.95), rgba(61,220,151,0.75));
-    color: #0b0d12;
-    font-weight: 800;
-    font-size: 1rem;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.35);
-    pointer-events: none;
+header[data-testid="stHeader"]::before, div[data-testid="stHeader"]::before {
+    content:"HN"; position:absolute; left:12px; top:6px;
+    width:40px; height:40px; border-radius:999px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:linear-gradient(135deg,rgba(79,140,255,0.95),rgba(61,220,151,0.75));
+    color:#0b0d12; font-weight:800; font-size:1rem;
+    box-shadow:0 10px 24px rgba(0,0,0,0.35); pointer-events:none;
 }
-
-header[data-testid="stHeader"]::after,
-div[data-testid="stHeader"]::after {
-    content: "Haidar Neda";
-    position: absolute;
-    left: 60px; top: 10px;
-    padding: 0.35rem 0.85rem;
-    border-radius: 999px;
-    background: rgba(26,29,36,0.72);
-    border: 1px solid rgba(79,140,255,0.26);
-    color: var(--text);
-    font-weight: 600;
-    font-size: 0.92rem;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.28);
-    pointer-events: none;
+header[data-testid="stHeader"]::after, div[data-testid="stHeader"]::after {
+    content:"Haidar Neda"; position:absolute; left:60px; top:10px;
+    padding:0.35rem 0.85rem; border-radius:999px;
+    background:rgba(26,29,36,0.72); border:1px solid rgba(79,140,255,0.26);
+    color:var(--text); font-weight:600; font-size:0.92rem;
+    box-shadow:0 10px 24px rgba(0,0,0,0.28); pointer-events:none;
 }
-
 header[data-testid="stHeader"] > div:last-child,
 div[data-testid="stHeader"] > div:last-child,
 header[data-testid="stHeader"] [data-testid*="fork"],
-div[data-testid="stHeader"] [data-testid*="fork"] {
-    display: none !important;
-}
+div[data-testid="stHeader"] [data-testid*="fork"] { display:none !important; }
 
 div[data-testid="stAppViewContainer"] p,
 div[data-testid="stAppViewContainer"] span,
 div[data-testid="stAppViewContainer"] label,
 div[data-testid="stAppViewContainer"] li,
 div[data-testid="stAppViewContainer"] strong,
-div[data-testid="stAppViewContainer"] em {
-    color: var(--text);
-}
+div[data-testid="stAppViewContainer"] em { color: var(--text); }
 
 .main { background-color: transparent; }
 div.block-container {
-    max-width: 100% !important;
-    padding-top: 1.2rem !important;
-    padding-bottom: 1.8rem !important;
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
+    max-width:100% !important;
+    padding-top:1.2rem !important; padding-bottom:1.8rem !important;
+    padding-left:2rem !important; padding-right:2rem !important;
 }
-div[data-testid="stMainBlockContainer"] { padding-top: 0.5rem !important; }
-section[data-testid="stMain"] > div:first-child { padding-top: 0.5rem !important; }
+div[data-testid="stMainBlockContainer"] { padding-top:0.5rem !important; }
+section[data-testid="stMain"] > div:first-child { padding-top:0.5rem !important; }
 
-.app-wrapper {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0.5rem 1rem 2.5rem;
-}
-
-@media (min-width: 768px) {
-    .app-wrapper { padding: 0.6rem 0 3.6rem; }
-}
+.app-wrapper { max-width:1100px; margin:0 auto; padding:0.5rem 1rem 2.5rem; }
+@media (min-width:768px) { .app-wrapper { padding:0.6rem 0 3.6rem; } }
 
 .app-header-card {
-    background: #12141d;
-    border-radius: 14px;
-    padding: 0.65rem 1.4rem;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
-    border: 1px solid rgba(79,140,255,0.32);
-    margin-bottom: 0.85rem;
-    position: relative;
-    overflow: hidden;
+    background:#12141d; border-radius:14px; padding:0.65rem 1.4rem;
+    box-shadow:0 8px 24px rgba(0,0,0,0.45);
+    border:1px solid rgba(79,140,255,0.32);
+    margin-bottom:0.85rem; position:relative; overflow:hidden;
 }
-
 .app-header-card::after {
-    content: "";
-    position: absolute;
-    left: 0; bottom: 0;
-    width: 38%; height: 2px;
-    background: linear-gradient(90deg, #4f8cff, transparent);
+    content:""; position:absolute; left:0; bottom:0;
+    width:38%; height:2px;
+    background:linear-gradient(90deg,#4f8cff,transparent);
 }
+.app-title { font-size:2.4rem; font-weight:700; letter-spacing:0.03em; color:#f5f7fa; margin:0; line-height:1.1; }
 
-.app-title { font-size: 2.4rem; font-weight: 700; letter-spacing: 0.03em; color: #f5f7fa; margin: 0; line-height: 1.1; }
 .vocab-card {
-    background: linear-gradient(145deg, #0f172a, #020617);
-    padding: 1.9rem 2.1rem;
-    border-radius: 20px;
-    box-shadow: 0 16px 46px rgba(0,0,0,0.7);
-    width: 100%;
-    max-width: 780px;
-    text-align: center;
-    border: 1px solid rgba(79,140,255,0.45);
+    background:linear-gradient(145deg,#0f172a,#020617);
+    padding:1.9rem 2.1rem; border-radius:20px;
+    box-shadow:0 16px 46px rgba(0,0,0,0.7);
+    width:100%; max-width:780px; text-align:center;
+    border:1px solid rgba(79,140,255,0.45);
 }
-.german-word {
-    font-size: 3.0rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 0.75rem;
-}
-.meta-info { font-size: 1.4rem; color: var(--text-muted); margin-bottom: 0.15rem; line-height: 1.4; }
-.meta-highlight { font-weight: 500; color: var(--accent); }
-.answer-label { font-size: 1.5rem; color: #e1e4ec; margin-bottom: 0.75rem; font-weight: 600; }
+.german-word { font-size:3.0rem; font-weight:700; color:#ffffff; margin-bottom:0.75rem; }
+.meta-info { font-size:1.4rem; color:var(--text-muted); margin-bottom:0.15rem; line-height:1.4; }
+.meta-highlight { font-weight:500; color:var(--accent); }
+.answer-label { font-size:1.5rem; color:#e1e4ec; margin-bottom:0.75rem; font-weight:600; }
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""<style>
-.option-btn button {
+/* BASE unselected card */
+div.option-btn > div[data-testid="stButton"] > button,
+div.option-btn > div[data-testid="stButton"] > button:focus,
+div.option-btn > div[data-testid="stButton"] > button:active {
     border-radius: 12px !important;
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 500 !important;
-    border: 1px solid rgba(42,110,110,0.9) !important;
     background: #1A3A3A !important;
     color: #cde8e8 !important;
+    border: 1px solid rgba(42,110,110,0.9) !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
@@ -255,22 +180,24 @@ st.markdown("""<style>
     box-shadow: 0 6px 18px rgba(0,0,0,0.55) !important;
     text-align: center !important;
 }
-
-.option-btn button:hover {
-    border-color: #3d9e9e !important;
+div.option-btn > div[data-testid="stButton"] > button:hover {
     background: #1f4545 !important;
+    border-color: #3d9e9e !important;
     box-shadow: 0 14px 30px rgba(42,110,110,0.45) !important;
     transform: scale(1.02) !important;
 }
 
-.option-btn-selected button {
+/* SELECTED card */
+div.option-btn-selected > div[data-testid="stButton"] > button,
+div.option-btn-selected > div[data-testid="stButton"] > button:focus,
+div.option-btn-selected > div[data-testid="stButton"] > button:active {
     border-radius: 12px !important;
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 600 !important;
-    border: 2px solid #5ecece !important;
     background: #1A3A3A !important;
     color: #ffffff !important;
+    border: 2px solid #5ecece !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
@@ -279,14 +206,17 @@ st.markdown("""<style>
     text-align: center !important;
 }
 
-.option-btn-correct button {
+/* CORRECT card */
+div.option-btn-correct > div[data-testid="stButton"] > button,
+div.option-btn-correct > div[data-testid="stButton"] > button:focus,
+div.option-btn-correct > div[data-testid="stButton"] > button:active {
     border-radius: 12px !important;
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 600 !important;
-    border: 2px solid #3ddc97 !important;
     background: #11241c !important;
     color: #3ddc97 !important;
+    border: 2px solid #3ddc97 !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
@@ -295,14 +225,17 @@ st.markdown("""<style>
     text-align: center !important;
 }
 
-.option-btn-wrong button {
+/* WRONG card */
+div.option-btn-wrong > div[data-testid="stButton"] > button,
+div.option-btn-wrong > div[data-testid="stButton"] > button:focus,
+div.option-btn-wrong > div[data-testid="stButton"] > button:active {
     border-radius: 12px !important;
     padding: 0.75rem 0.5rem !important;
     font-size: 1.4rem !important;
     font-weight: 600 !important;
-    border: 2px solid #ff6b6b !important;
     background: #261119 !important;
     color: #ff6b6b !important;
+    border: 2px solid #ff6b6b !important;
     width: 100% !important;
     min-height: 72px !important;
     white-space: normal !important;
@@ -325,13 +258,11 @@ div[data-testid="stButton"] > button[kind="primary"] {
     box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
     width: 100% !important;
 }
-
 div[data-testid="stButton"] > button[kind="primary"]:hover {
     filter: brightness(1.06) !important;
     transform: translateY(-1px) !important;
     box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
 }
-
 div[data-testid="stButton"] > button[kind="secondary"] {
     border-radius: 999px !important;
     padding: 0.55rem 1.4rem !important;
@@ -344,98 +275,66 @@ div[data-testid="stButton"] > button[kind="secondary"] {
     box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
     width: 100% !important;
 }
-
 div[data-testid="stButton"] > button[kind="secondary"]:hover {
     filter: brightness(1.06) !important;
     transform: translateY(-1px) !important;
     box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
 }
 
-.stAlert {
-    border-radius: 12px;
-    padding: 0.7rem 0.9rem;
-    border: 1px solid transparent;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.65);
-}
-
-.stAlert-success { background-color: #11241c !important; border-color: rgba(61,220,151,0.6) !important; }
-.stAlert-success * { color: #c9f6e3 !important; }
-.stAlert-error { background-color: #261119 !important; border-color: rgba(255,107,107,0.7) !important; }
-.stAlert-error * { color: #ffd4d4 !important; }
+.stAlert { border-radius:12px; padding:0.7rem 0.9rem; border:1px solid transparent; box-shadow:0 10px 24px rgba(0,0,0,0.65); }
+.stAlert-success { background-color:#11241c !important; border-color:rgba(61,220,151,0.6) !important; }
+.stAlert-success * { color:#c9f6e3 !important; }
+.stAlert-error { background-color:#261119 !important; border-color:rgba(255,107,107,0.7) !important; }
+.stAlert-error * { color:#ffd4d4 !important; }
 
 .progress-card {
-    background: #151822;
-    border-radius: 16px;
-    padding: 1.15rem 1.5rem 1.25rem;
-    box-shadow: 0 18px 40px rgba(0,0,0,0.75);
-    border: 1px solid rgba(61,72,102,0.7);
-    margin-top: 1.1rem;
+    background:#151822; border-radius:16px; padding:1.15rem 1.5rem 1.25rem;
+    box-shadow:0 18px 40px rgba(0,0,0,0.75);
+    border:1px solid rgba(61,72,102,0.7); margin-top:1.1rem;
 }
-
-.progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.55rem; }
-.progress-title { font-size: 1.4rem; font-weight: 600; color: #f5f7fa; }
-.progress-subtitle { font-size: 1.15rem; color: #8f95a3; }
-
-.stat-row { display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; margin-top: 0.55rem; }
-
+.progress-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:0.55rem; }
+.progress-title { font-size:1.4rem; font-weight:600; color:#f5f7fa; }
+.progress-subtitle { font-size:1.15rem; color:#8f95a3; }
+.stat-row { display:flex; flex-wrap:wrap; gap:0.6rem 1rem; margin-top:0.55rem; }
 .stat-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.16rem 0.7rem;
-    border-radius: 999px;
-    background: #202431;
-    font-size: 1.15rem;
-    color: #d0d4e2;
-    border: 1px solid rgba(75,85,116,0.9);
+    display:inline-flex; align-items:center; gap:0.3rem;
+    padding:0.16rem 0.7rem; border-radius:999px;
+    background:#202431; font-size:1.15rem; color:#d0d4e2;
+    border:1px solid rgba(75,85,116,0.9);
 }
+.stat-pill--correct { background:#14291f; border-color:rgba(61,220,151,0.7); color:#a9f0cd; }
+.stat-pill--wrong { background:#2a181c; border-color:rgba(255,107,107,0.72); color:#ffc0c0; }
+.stat-pill--total { background:#202534; border-color:rgba(122,132,160,0.9); color:#e0e4f3; }
+.stat-pill--remaining { background:#1c2030; border-color:rgba(79,140,255,0.6); color:#b8caff; }
+.stProgress > div > div { background-color:#202636; border-radius:999px; }
+.stProgress > div > div > div { background:linear-gradient(90deg,#4f8cff,#3ddc97); border-radius:999px; }
+.tip-box { font-size:1.15rem; color:#8b92a0; margin-top:0.95rem; line-height:1.5; }
 
-.stat-pill--correct { background: #14291f; border-color: rgba(61,220,151,0.7); color: #a9f0cd; }
-.stat-pill--wrong { background: #2a181c; border-color: rgba(255,107,107,0.72); color: #ffc0c0; }
-.stat-pill--total { background: #202534; border-color: rgba(122,132,160,0.9); color: #e0e4f3; }
-.stat-pill--remaining { background: #1c2030; border-color: rgba(79,140,255,0.6); color: #b8caff; }
-
-.stProgress > div > div { background-color: #202636; border-radius: 999px; }
-.stProgress > div > div > div { background: linear-gradient(90deg, #4f8cff, #3ddc97); border-radius: 999px; }
-
-.tip-box { font-size: 1.15rem; color: #8b92a0; margin-top: 0.95rem; line-height: 1.5; }
-
-@media (max-width: 640px) {
-    div[data-testid="stMainBlockContainer"] { padding-top: 2rem !important; }
-    section[data-testid="stMain"] > div:first-child { padding-top: 2rem !important; }
-    .app-header-card { padding: 0.55rem 1rem; margin-bottom: 0.7rem; }
-    .app-title { font-size: 1.9rem; }
-    .german-word { font-size: 2.4rem; margin-bottom: 0.2rem; }
-    .meta-info { font-size: 1.15rem; }
-    .answer-label { font-size: 1.15rem; margin-bottom: 0.25rem; }
-    .option-btn button, .option-btn-selected button,
-    .option-btn-correct button, .option-btn-wrong button {
-        font-size: 1.2rem !important;
-        min-height: 68px !important;
-        padding: 0.45rem 0.35rem !important;
+@media (max-width:640px) {
+    div[data-testid="stMainBlockContainer"] { padding-top:2rem !important; }
+    section[data-testid="stMain"] > div:first-child { padding-top:2rem !important; }
+    .app-title { font-size:1.9rem; }
+    .german-word { font-size:2.4rem; }
+    .meta-info { font-size:1.15rem; }
+    .answer-label { font-size:1.15rem; }
+    div.option-btn > div[data-testid="stButton"] > button,
+    div.option-btn-selected > div[data-testid="stButton"] > button,
+    div.option-btn-correct > div[data-testid="stButton"] > button,
+    div.option-btn-wrong > div[data-testid="stButton"] > button {
+        font-size:1.2rem !important; min-height:68px !important; padding:0.45rem 0.35rem !important;
     }
-    header[data-testid="stHeader"]::before,
-    div[data-testid="stHeader"]::before {
-        left: 10px; top: 4px;
-        width: 40px; height: 40px;
-        font-size: 1rem;
+    header[data-testid="stHeader"]::before, div[data-testid="stHeader"]::before {
+        left:10px; top:4px; width:40px; height:40px; font-size:1rem;
     }
-    header[data-testid="stHeader"]::after,
-    div[data-testid="stHeader"]::after {
-        left: 58px; top: 8px;
-        font-size: 0.95rem;
-        padding: 0.35rem 0.85rem;
+    header[data-testid="stHeader"]::after, div[data-testid="stHeader"]::after {
+        left:58px; top:8px; font-size:0.95rem; padding:0.35rem 0.85rem;
     }
 }
 </style>""", unsafe_allow_html=True)
 
+# ---- UI ----
 st.markdown('<div class="app-wrapper">', unsafe_allow_html=True)
-
-st.markdown(
-    '<div class="app-header-card"><div class="app-title">Deutsch Trainer</div></div>',
-    unsafe_allow_html=True,
-)
-
+st.markdown('<div class="app-header-card"><div class="app-title">Deutsch Trainer</div></div>', unsafe_allow_html=True)
 st.markdown('<div class="vocab-card">', unsafe_allow_html=True)
 
 if st.session_state.get("round_complete"):
@@ -465,14 +364,8 @@ cols = [col1, col2, col1, col2]
 for i, option in enumerate(options):
     selected = st.session_state.selected_answer
     checked = st.session_state.answer_checked
-
     if checked:
-        if option == correct_answer:
-            css_class = "option-btn-correct"
-        elif option == selected:
-            css_class = "option-btn-wrong"
-        else:
-            css_class = "option-btn"
+        css_class = "option-btn-correct" if option == correct_answer else ("option-btn-wrong" if option == selected else "option-btn")
     else:
         css_class = "option-btn-selected" if option == selected else "option-btn"
 
@@ -485,10 +378,8 @@ for i, option in enumerate(options):
         st.markdown('</div>', unsafe_allow_html=True)
 
 check_col, next_col = st.columns(2)
-
 with check_col:
     check_clicked = st.button("Check answer", key="check_btn", type="primary", use_container_width=True)
-
 with next_col:
     next_clicked = st.button("Next word", key="next_btn", type="secondary", use_container_width=True)
 
@@ -524,18 +415,14 @@ accuracy = (st.session_state.correct / total_answered) * 100 if total_answered e
 words_left = len(st.session_state.get("word_queue", []))
 
 st.markdown('<div class="progress-card">', unsafe_allow_html=True)
-st.markdown(
-    f"""
+st.markdown(f"""
     <div class="progress-header">
         <div class="progress-title">Session progress</div>
         <div class="progress-subtitle">{'Nice rhythm - keep going.' if total_answered else 'Answer your first question to begin.'}</div>
     </div>
-    """,
-    unsafe_allow_html=True,
-)
+""", unsafe_allow_html=True)
 st.progress(accuracy / 100 if accuracy else 0.0)
-st.markdown(
-    f"""
+st.markdown(f"""
     <div class="stat-row">
         <div class="stat-pill stat-pill--correct">✅ Correct: {st.session_state.correct}</div>
         <div class="stat-pill stat-pill--wrong">❌ Wrong: {st.session_state.wrong}</div>
@@ -543,11 +430,7 @@ st.markdown(
         <div class="stat-pill">🎯 Accuracy: {accuracy:.1f}%</div>
         <div class="stat-pill stat-pill--remaining">📖 Words left this round: {words_left} / {len(vocab)}</div>
     </div>
-    """,
-    unsafe_allow_html=True,
-)
-st.markdown(
-    '<div class="tip-box">You can extend your deck at any time by editing <code>vocab.csv</code>. New words will appear automatically in future questions.</div>',
-    unsafe_allow_html=True,
-)
+""", unsafe_allow_html=True)
+st.markdown('<div class="tip-box">You can extend your deck at any time by editing <code>vocab.csv</code>. New words will appear automatically in future questions.</div>', unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
