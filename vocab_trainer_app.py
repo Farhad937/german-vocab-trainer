@@ -261,6 +261,11 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
     box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
 }
 
+/* Ensure non-primary (option) buttons have visible text on white backgrounds */
+div[data-testid="stButton"] > button:not([kind="primary"]) {
+    color: #000000 !important;
+}
+
 /* Next word button only — not option cards */
 
 
