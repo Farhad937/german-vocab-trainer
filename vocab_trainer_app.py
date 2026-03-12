@@ -267,14 +267,14 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
 
 
 /* Option card buttons — override any Streamlit button defaults */
-.option-btn div[data-testid="stButton"] > button:not(:hover),
-.option-btn div[data-testid="stButton"] > button:hover,
-.option-btn-selected div[data-testid="stButton"] > button:not(:hover),
-.option-btn-selected div[data-testid="stButton"] > button:hover,
-.option-btn-correct div[data-testid="stButton"] > button:not(:hover),
-.option-btn-correct div[data-testid="stButton"] > button:hover,
-.option-btn-wrong div[data-testid="stButton"] > button:not(:hover),
-.option-btn-wrong div[data-testid="stButton"] > button:hover {
+.option-btn button:not(:hover),
+.option-btn button:hover,
+.option-btn-selected button:not(:hover),
+.option-btn-selected button:hover,
+.option-btn-correct button:not(:hover),
+.option-btn-correct button:hover,
+.option-btn-wrong button:not(:hover),
+.option-btn-wrong button:hover {
     background: #1A3A3A !important;
     color: #cde8e8 !important;
     border: 1px solid rgba(42,110,110,0.9) !important;
