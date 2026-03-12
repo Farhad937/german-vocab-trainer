@@ -453,6 +453,38 @@ for i, option in enumerate(options):
                 st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
+st.markdown("""<script>
+(function applyCardColors() {
+    var rules = [
+        { cls: 'option-btn',          bg: '#1A3A3A', color: '#cde8e8', border: '1px solid rgba(42,110,110,0.9)' },
+        { cls: 'option-btn-selected', bg: '#1f4545', color: '#ffffff', border: '2px solid #5ecece' },
+        { cls: 'option-btn-correct',  bg: '#11241c', color: '#3ddc97', border: '2px solid #3ddc97' },
+        { cls: 'option-btn-wrong',    bg: '#261119', color: '#ff6b6b', border: '2px solid #ff6b6b' },
+    ];
+    function apply() {
+        rules.forEach(function(r) {
+            document.querySelectorAll('.' + r.cls + ' button').forEach(function(btn) {
+                btn.style.setProperty('background', r.bg, 'important');
+                btn.style.setProperty('background-color', r.bg, 'important');
+                btn.style.setProperty('color', r.color, 'important');
+                btn.style.setProperty('border', r.border, 'important');
+                btn.style.setProperty('border-radius', '12px', 'important');
+                btn.style.setProperty('min-height', '72px', 'important');
+                btn.style.setProperty('white-space', 'normal', 'important');
+                btn.style.setProperty('line-height', '1.3', 'important');
+                btn.style.setProperty('font-size', '1.4rem', 'important');
+                btn.style.setProperty('font-weight', '500', 'important');
+            });
+        });
+    }
+    apply();
+    setTimeout(apply, 100);
+    setTimeout(apply, 400);
+    var obs = new MutationObserver(apply);
+    obs.observe(document.body, { childList: true, subtree: true });
+})();
+</script>""", unsafe_allow_html=True)
+
 check_col, next_col = st.columns(2)
 
 with check_col:
