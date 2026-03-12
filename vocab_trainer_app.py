@@ -267,10 +267,14 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
 
 
 /* Option card buttons — override any Streamlit button defaults */
-.option-btn div[data-testid="stButton"] > button,
-.option-btn-selected div[data-testid="stButton"] > button,
-.option-btn-correct div[data-testid="stButton"] > button,
-.option-btn-wrong div[data-testid="stButton"] > button {
+.option-btn div[data-testid="stButton"] > button:not(:hover),
+.option-btn div[data-testid="stButton"] > button:hover,
+.option-btn-selected div[data-testid="stButton"] > button:not(:hover),
+.option-btn-selected div[data-testid="stButton"] > button:hover,
+.option-btn-correct div[data-testid="stButton"] > button:not(:hover),
+.option-btn-correct div[data-testid="stButton"] > button:hover,
+.option-btn-wrong div[data-testid="stButton"] > button:not(:hover),
+.option-btn-wrong div[data-testid="stButton"] > button:hover {
     background: #1A3A3A !important;
     color: #cde8e8 !important;
     border: 1px solid rgba(42,110,110,0.9) !important;
@@ -290,20 +294,23 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
     border-color: #3d9e9e !important;
     transform: scale(1.02) !important;
 }
-.option-btn-selected div[data-testid="stButton"] > button {
+.option-btn-selected div[data-testid="stButton"] > button:not(:hover),
+.option-btn-selected div[data-testid="stButton"] > button:hover {
     background: #1f4545 !important;
     color: #ffffff !important;
     border: 2px solid #5ecece !important;
     box-shadow: 0 12px 28px rgba(94,206,206,0.45) !important;
     transform: scale(1.02) !important;
 }
-.option-btn-correct div[data-testid="stButton"] > button {
+.option-btn-correct div[data-testid="stButton"] > button:not(:hover),
+.option-btn-correct div[data-testid="stButton"] > button:hover {
     background: #11241c !important;
     color: #3ddc97 !important;
     border: 2px solid #3ddc97 !important;
     box-shadow: 0 12px 26px rgba(61,220,151,0.35) !important;
 }
-.option-btn-wrong div[data-testid="stButton"] > button {
+.option-btn-wrong div[data-testid="stButton"] > button:not(:hover),
+.option-btn-wrong div[data-testid="stButton"] > button:hover {
     background: #261119 !important;
     color: #ff6b6b !important;
     border: 2px solid #ff6b6b !important;
