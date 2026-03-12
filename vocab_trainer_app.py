@@ -461,10 +461,10 @@ for i, option in enumerate(options):
 st.markdown("""<script>
 (function applyCardColors() {
     var rules = [
-        { cls: 'option-btn',          bg: '#1A3A3A', color: '#cde8e8', border: '1px solid rgba(42,110,110,0.9)' },
-        { cls: 'option-btn-selected', bg: '#1f4545', color: '#ffffff', border: '2px solid #5ecece' },
-        { cls: 'option-btn-correct',  bg: '#11241c', color: '#3ddc97', border: '2px solid #3ddc97' },
-        { cls: 'option-btn-wrong',    bg: '#261119', color: '#ff6b6b', border: '2px solid #ff6b6b' },
+        { cls: 'option-btn',          bg: '#1A3A3A', color: '#000000', border: '1px solid rgba(42,110,110,0.9)' },
+        { cls: 'option-btn-selected', bg: '#1f4545', color: '#000000', border: '2px solid #5ecece' },
+        { cls: 'option-btn-correct',  bg: '#11241c', color: '#000000', border: '2px solid #3ddc97' },
+        { cls: 'option-btn-wrong',    bg: '#261119', color: '#000000', border: '2px solid #ff6b6b' },
     ];
     function apply() {
         rules.forEach(function(r) {
