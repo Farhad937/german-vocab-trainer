@@ -333,23 +333,53 @@ div[data-testid="stButton"] > button[kind="primary"]:hover {
     box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
 }
 
-div[data-testid="stButton"] > button[kind="secondary"] {
-    border-radius: 999px !important;
-    padding: 0.55rem 1.4rem !important;
-    font-size: 1.2rem !important;
-    font-weight: 500 !important;
-    background: linear-gradient(135deg, #4f8cff, #6fa8ff) !important;
-    color: #ffffff !important;
-    border: 1px solid rgba(118,162,255,0.9) !important;
-    transition: all 0.16s ease-out !important;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.7) !important;
-    width: 100% !important;
-}
+/* Next word button only — not option cards */
 
-div[data-testid="stButton"] > button[kind="secondary"]:hover {
-    filter: brightness(1.06) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 16px 32px rgba(79,140,255,0.55) !important;
+
+
+
+/* Option card buttons — override any Streamlit button defaults */
+.option-btn div[data-testid="stButton"] > button,
+.option-btn-selected div[data-testid="stButton"] > button,
+.option-btn-correct div[data-testid="stButton"] > button,
+.option-btn-wrong div[data-testid="stButton"] > button {
+    border-radius: 12px !important;
+    white-space: normal !important;
+    line-height: 1.3 !important;
+    min-height: 72px !important;
+    width: 100% !important;
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+}
+.option-btn div[data-testid="stButton"] > button {
+    background: #1A3A3A !important;
+    color: #cde8e8 !important;
+    border: 1px solid rgba(42,110,110,0.9) !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.55) !important;
+}
+.option-btn div[data-testid="stButton"] > button:hover {
+    background: #1f4545 !important;
+    border-color: #3d9e9e !important;
+    transform: scale(1.02) !important;
+}
+.option-btn-selected div[data-testid="stButton"] > button {
+    background: #1A3A3A !important;
+    color: #ffffff !important;
+    border: 2px solid #5ecece !important;
+    box-shadow: 0 12px 28px rgba(94,206,206,0.35) !important;
+}
+.option-btn-correct div[data-testid="stButton"] > button {
+    background: #11241c !important;
+    color: #3ddc97 !important;
+    border: 2px solid #3ddc97 !important;
+    box-shadow: 0 12px 26px rgba(61,220,151,0.35) !important;
+}
+.option-btn-wrong div[data-testid="stButton"] > button {
+    background: #261119 !important;
+    color: #ff6b6b !important;
+    border: 2px solid #ff6b6b !important;
+    box-shadow: 0 12px 26px rgba(255,107,107,0.3) !important;
 }
 
 .stAlert {
@@ -494,7 +524,7 @@ with check_col:
     check_clicked = st.button("Check answer", key="check_btn", type="primary", use_container_width=True)
 
 with next_col:
-    next_clicked = st.button("Next word", key="next_btn", type="secondary", use_container_width=True)
+    next_clicked = st.button("Next word", key="next_btn", type="primary", use_container_width=True)
 
 if check_clicked:
     if st.session_state.selected_answer is None:
