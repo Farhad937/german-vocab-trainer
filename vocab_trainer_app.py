@@ -474,6 +474,9 @@ st.markdown("""<script>
                 btn.style.setProperty('line-height', '1.3', 'important');
                 btn.style.setProperty('font-size', '1.4rem', 'important');
                 btn.style.setProperty('font-weight', '500', 'important');
+                btn.querySelectorAll('*').forEach(function(el) {
+                    el.style.setProperty('color', r.color, 'important');
+                });
             });
         });
     }
